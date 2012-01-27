@@ -1,0 +1,19 @@
+curl -I -H "X-Auth-Key: d6cecb77f407e81b58a8dcfa7a33384b" -H "X-Auth-User: kmulvey" https://auth.api.rackspacecloud.com/v1.0
+==========================================================
+HTTP/1.1 204 No Content
+Server: Apache/2.2.3 (Red Hat)
+vary: X-Auth-Token,X-Auth-Key,X-Storage-User,X-Storage-Pass
+X-Storage-Url: https://storage101.dfw1.clouddrive.com/v1/MossoCloudFS_73e0b11b-1ebc-4d1d-bc66-626861b247da
+Cache-Control: s-maxage=69248
+Content-Type: text/xml
+Date: Tue, 24 Jan 2012 01:44:12 GMT
+X-Auth-Token: 56b77346-c977-4523-8c69-94013c6c49d4
+X-Server-Management-Url: https://servers.api.rackspacecloud.com/v1.0/412508
+X-Storage-Token: 56b77346-c977-4523-8c69-94013c6c49d4
+Connection: Keep-Alive
+X-CDN-Management-Url: https://cdn.clouddrive.com/v1/MossoCloudFS_73e0b11b-1ebc-4d1d-bc66-626861b247da
+
+
+curl -X GET -H "X-Auth-Token: 56b77346-c977-4523-8c69-94013c6c49d4" -H "Accept: application/json" https://dns.api.rackspacecloud.com/v1.0/412508/domains
+==========================================================
+{"domains":[{"name":"kevinmulvey.name","id":1567639,"accountId":412508,"updated":"2011-09-28T00:14:11.000+0000","created":"2009-12-11T01:02:23.000+0000"},{"name":"kevinmulvey.net","id":2914569,"accountId":412508,"updated":"2011-12-03T17:14:54.000+0000","created":"2011-09-29T00:58:19.000+0000"},{"name":"kevinmulvey.org","id":1567641,"accountId":412508,"updated":"2011-05-03T20:17:28.000+0000","created":"2009-12-11T01:02:23.000+0000"},{"name":"theorywednesday.com","id":1718531,"accountId":412508,"updated":"2011-05-03T21:38:12.000+0000","created":"2009-12-11T01:03:34.000+0000"}],"totalEntries":4}
