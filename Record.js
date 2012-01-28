@@ -10,11 +10,11 @@ Domain.prototype.init = function(arg) {
 	this.ttl = arg.ttl;
 	this.updated = arg.updated;
 	this.created = arg.created;
-};
+}
 
 Domain.prototype.toJSON = function () {
 	var output = '{ "name" : "' + this.name + '", "id" : "' + this.id + '", "type" : "' + this.type + '", ';
 	output = output + '"data" : "' + this.data + '", "ttl" : "' + this.ttl + '", ';
 	output = output + '"updated" : "' + this.updated + '", "created" : "' + this.created + '" }';
 	console.log(output);
-};
+}
