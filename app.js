@@ -5,6 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , dns = require('./dns')
 
 var app = module.exports = express.createServer();
 
@@ -29,9 +30,19 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
+function checkSessionDns(req, res, next) {
+  if (req.session.dns) next();
+  else req.session.dns = new dns(); //replace later with redirect to login page
+  next();
+};
+
+app.error(function(err, req, res, next){
+  console.log(err); 
+});
+
 // Routes
 
-app.get('/', routes.index);
+app.get('/', checkSessionDns, routes.index);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
