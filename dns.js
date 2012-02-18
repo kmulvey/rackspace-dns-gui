@@ -6,25 +6,25 @@ var Domain = require('./Domain');
 var Record = require('./Record');
 var Limit = require('./Limit');
 
-var global_auth_token;
-var global_acct_num;
-
 var dns = module.exports = function dns() {
-	auth_token = '', acct_num = '';
+	user_name = '', key = '', auth_token = '', acct_num = ''; 
 };
 
+// don't really need to use step now, should remove later.
 dns.prototype.initialize = Step.fn (
-	function getToken(name) {
+	function getToken(name, key) {
+		dns.user_name = name;
+		dns.key = key;
 		make_request(null, 'POST', null, this);
 	},
 	function parseToken(res) {
 		var data = JSON.parse(res);
-		global_auth_token = data.auth.token.id;
+		dns.auth_token = data.auth.token.id;
 		var url = data.auth.serviceCatalog.cloudServers[0].publicURL;
 		var cut = url.split('/');
-		global_acct_num = cut[cut.length - 1];
-		return global_acct_num;
-	},
+		dns.acct_num = cut[cut.length - 1];
+		return '{ "auth_token" : "' + dns.auth_token + '",  "acct_num" : "' +  dns.acct_num + '" }';
+	} /*,
 	function getDomains(err, acctNum) {
 		if (err) throw err;
                 make_request('domains', 'GET', null, this);
@@ -39,7 +39,7 @@ dns.prototype.initialize = Step.fn (
                         domainArray.push(domain);
                 }
 		return domainArray;
-	}
+	}*/
 );
 
 // --------------------------------------------------------------------------------------------------
@@ -269,7 +269,8 @@ function make_request(path, method, body, callback) {
 			}
 		};
 		var req = https.request(options);
-		req.write('{"credentials":{ "username": "kmulvey", "key": "d6cecb77f407e81b58a8dcfa7a33384b"}}');
+		req.write('{"credentials":{ "username": "' + dns.user_name + '", "key": "' + dns.key + '"}}');
+		console.log('Name : ' + dns.user_name + ', Key : ' + dns.key);
 		res = req.on('response', function(res) {
 			if (200 <= res.statusCode < 300) {
 				res.setEncoding('utf8');
@@ -279,17 +280,17 @@ function make_request(path, method, body, callback) {
 			}
 		});
 		req.on('error', function(e) {
-			console.error(e);
+			console.error('Err: ' + e);
 		});
 		req.end();
 	} else {
 		options = {
 			host : 'dns.api.rackspacecloud.com',
 			port : 443,
-			path : '/v1.0/' + global_acct_num + '/' + path,
+			path : '/v1.0/' + dns.acct_num + '/' + path,
 			method : method,
 			headers : {
-				'X-Auth-Token' : global_auth_token,
+				'X-Auth-Token' : dns.auth_token,
 				'Accept' : 'application/json'
 			}
 		};
@@ -305,7 +306,7 @@ function make_request(path, method, body, callback) {
 			}
 		});
 		req.on('error', function(e) {
-			console.error(e);
+			console.error('Err: ' + e);
 		});
 		req.end();
 	}
