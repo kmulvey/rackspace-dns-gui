@@ -1,2 +1,14 @@
-h1= title
-p Welcome to #{title}
+include includes/head
+include includes/nav-bar
+div.container
+	div.row-fluid
+		div.span2
+		div.span8
+			form(id='dig-form', method="post", action="/domains").well.form-inline
+				input(type='text', id='username', name='username', placeholder="Username").input-small.span2
+				input(type='password', id='password', name='password', placeholder="Password").input-small.span2
+				button(type="submit", id='submit').btn Submit
+				br
+				div.progress.progress-info.progress-striped.hidden
+					div(style='width: 40%;').bar
+		div.span2

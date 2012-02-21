@@ -17,5 +17,5 @@ Domain.prototype.toJSON = function () {
 	var output = '{ "name" : "' + this.name + '", "id" : "' + this.id + '", "comment" : "' + this.comment + '", ';
 	output = output + '"accountId" : "' + this.accountId + '", "ttl" : "' + this.ttl + '", "emailAddress" : "' + this.emailAddress + '", ';
 	output = output + '"updated" : "' + this.updated + '", "created" : "' + this.created + '" }';
-	console.log(output);
+	return output;
 }

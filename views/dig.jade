@@ -1,0 +1,35 @@
+include includes/head
+include includes/nav-bar
+div.container
+	div.row-fluid
+		div.span2
+		div.span8
+			form(method='post', id='dig-form').well.form-inline
+				input(type='text', id='host', name='host', placeholder="Host").input-small.span3
+				input(type='text', name='type', placeholder="Type").input-small.span1
+				button(type="submit", id='submit').btn Submit
+				br
+				div.progress.progress-info.progress-striped.hidden
+					div(style='width: 40%;').bar
+		div.span2
+div.container.result
+	div.row-fluid
+		div.span2
+		div.span8
+			pre.results
+		div.span2
+		
+script(src="/public/docs/assets/js/jquery.js")
+script
+	$('#submit').on('click', function(e){
+		$('.progress').removeClass('hidden').addClass('active');
+		e.preventDefault();
+		$.post('/dig', $('#dig-form').serialize(), function(data) {
+			$('pre.results').html(data);
+			$('.progress').removeClass('active').addClass('hidden');
+		});
+	});
+	$('#dig-form').submit(function() {
+		$('#submit').click();
+		return false;
+	});

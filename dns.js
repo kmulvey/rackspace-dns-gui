@@ -1,22 +1,54 @@
 var https = require('https');
+var routes = require('./routes');
+var Step = require('./step');
+
 var Domain = require('./Domain');
+var Record = require('./Record');
+var Limit = require('./Limit');
 
 var dns = module.exports = function dns() {
-	auth_token = '', acct_num = '';
+	user_name = '', key = '', auth_token = '', acct_num = ''; 
 };
 
-dns.prototype.init = function() {
-	make_request(null, 'POST', function(res) {
+// don't really need to use step now, should remove later.
+dns.prototype.initialize = Step.fn (
+	function getToken(name, key) {
+		dns.user_name = name;
+		dns.key = key;
+		make_request(null, 'POST', null, this);
+	},
+	function parseToken(res) {
 		var data = JSON.parse(res);
-		this.auth_token = data.auth.token.id;
+		dns.auth_token = data.auth.token.id;
 		var url = data.auth.serviceCatalog.cloudServers[0].publicURL;
 		var cut = url.split('/');
-		this.acct_num = cut[cut.length - 1];
-	});
-};
+		dns.acct_num = cut[cut.length - 1];
+		return '{ "auth_token" : "' + dns.auth_token + '",  "acct_num" : "' +  dns.acct_num + '" }';
+	} /*,
+	function getDomains(err, acctNum) {
+		if (err) throw err;
+                make_request('domains', 'GET', null, this);
+	},
+	function returnBack(res) {
+		var data = JSON.parse(res);
+                var domains = data.domains;
+                var domainArray = [];
+                for ( var i = 0; i < domains.length; i++) {
+                        var domain = new Domain();
+                        domain.init(domains[i]);
+                        domainArray.push(domain);
+                }
+		return domainArray;
+	}*/
+);
 
-dns.prototype.getDomains = function() {
-	make_request('domains', 'GET', function(res) {
+// --------------------------------------------------------------------------------------------------
+// DOMAINS APIS
+// --------------------------------------------------------------------------------------------------
+
+// List all domains manageable by the account specified. Display IDs and names only
+dns.prototype.getDomains = function(callback) {
+	make_request('domains', 'GET', null, function(res) {
 		var data = JSON.parse(res);
 		var domains = data.domains;
 		var domainArray = [];
@@ -25,85 +57,204 @@ dns.prototype.getDomains = function() {
 			domain.init(domains[i]);
 			domainArray.push(domain);
 		}
-		domainArray[0].toJSON();
+		callback(domainArray);	
 	});
 };
-dns.prototype.getDomain = function(domainName) {
-	make_request('/domains/?name=' + domainName, 'GET', function(res) {
-		console.log(res);
+
+// Filter domains by domain name: list all domains manageable by the account specified that match the name domainName. Display IDs and names only
+dns.prototype.getDomain = function(domainName, callback) {
+	make_request('domains/?name=' + domainName, 'GET', null, function(res) {
+		callback(res);
 	});
 };
-dns.prototype.getSubDomain = function(domainId) {
-	make_request('domains/' + domainId + '/subdomains', 'GET', function(res) {
-		console.log(res);
+
+// List domains that are subdomains of the specified domain
+dns.prototype.getSubDomain = function(domainId, callback) {
+	make_request('domains/' + domainId + '/subdomains', 'GET', null, function(res) {
+		callback(res);
 	});
 };
-dns.prototype.getDomainDetails = function(domainId, records, subdomains) {
+
+// List details of the specified domain. Display details, as specified by the showRecords and showSubdomains parameters
+dns.prototype.getDomainDetails = function(domainId, records, subdomains, callback) {
 	if (records != true)
 		records = false;
 	if (subdomains != true)
 		sub = false;
 
-	make_request('/domains/' + domainId + '?showRecords=' + records + '&showSubdomains=' + subdomains, 'GET', function(res) {
-		console.log(res);
+	make_request('domains/' + domainId + '?showRecords=' + records + '&showSubdomains=' + subdomains, 'GET', null, function(res) {
+		callback(res);
 	});
 };
-dns.prototype.getDomainChanges = function(domainId, changeDate) {
+
+// Show all changes to the specified domain since the specified date/time
+dns.prototype.getDomainChanges = function(domainId, changeDate, callback) {
 	var change = new Date(changeDate);
-	make_request('/domains/' + domainId + '/chnages?since=' + change, 'GET', function(res) {
-		console.log(res);
+	make_request('domains/' + domainId + '/chnages?since=' + change, 'GET', null, function(res) {
+		callback(res);
 	});
 };
-dns.prototype.exportDomain = function(domainId) {
-	make_request('/domains/' + domainId + '/export', 'GET', function(res) {
-		console.log(res);
+
+// Export details of the specified domain
+dns.prototype.exportDomain = function(domainId, callback) {
+	make_request('domains/' + domainId + '/export', 'GET', null, function(res) {
+		callback(res);
 	});
 };
-dns.prototype.removeDomains = function() {
-	var args = Array.prototype.slice.call(arguments);
+
+// Create a new domain with the configuration defined by the request
+dns.prototype.createDomains = function(domain, callback) {
+	make_request('domains', 'POST', domain.toJSON(), function(res) {
+		callback(res);
+	});
+};
+
+// Import a new domain with the configuration specified by the request
+dns.prototype.importDomains = function(domain, callback) {
+	make_request('domains/import', 'POST', domain.toJSON(), function(res) {
+		callback(res);
+	});
+};
+
+// Modify the configuration of a domain or domains
+dns.prototype.modifyDomains = function(domains, callback) {
 	var uri = '';
-	var subdomains = args[1];
+	if (domains.length == 1) uri = '/' + domains[0].id;
+	make_request('domains' + uri, 'PUT', domains.toJSON(), function(res) {
+		callback(res);
+	});
+};
+
+// Remove a domain or multiple domains and/or its/their subdomains from an account
+dns.prototype.removeDomains = function(domains, subdomains, callback) {
+	var uri = '';
 	if (subdomains != true)
 		subdomains = false;
 
-	for ( var i = 2; i < args.length; i++) {
-		uri += '?id=' + args[i];
+	if (domains.length == 1) {
+		uri = '/' + domains[0].id;
+		if (subdomains) uri += '?deleteSubdomains=true';
+	} else {
+		for ( var i = 0; i < domains.length; i++) {
+			if (i == 0) uri += '?id=' + domains[i].id;
+			else uri += '&id=' + domains[i].id;
+		}
+		if (subdomains) uri += '&deleteSubdomains=true';
 	}
-	uri += '&deleteSubdomains=' + subdomains;
-	make_request('/domains' + uri, function(res) {
-		console.log(res);
+	make_request('domains' + uri, 'DELETE', null, function(res) {
+		callback(res);
 	});
 };
-dns.prototype.getLimits = function() {
-	make_request('/limits', 'GET', function(res) {
-		console.log(res);
+
+// --------------------------------------------------------------------------------------------------
+// LIMITS APIS
+// --------------------------------------------------------------------------------------------------
+
+// List all applicable limits
+dns.prototype.getLimits = function(callback) {
+	make_request('limits', 'GET', null, function(res) {
+		var data = JSON.parse(res);
+                var rates = data.rates.rate;
+		var absolute = data.absolute;
+                var limitArray = [];
+		var limit;
+		var rate;
+                for ( var i = 0; i < rates.length; i++) {
+                        rate = rates[i];
+			for (var j = 0; j < rate.limit.length; j++) {
+				limit = new Limit();
+                        	limit.init('rates', rate.limit[j], rate.uri, rate.regex);
+                        	limitArray.push(limit);
+			}
+                }
+		for (var k = 0; k < absolute.limit.length; k++) {
+			limit = new Limit();
+			limit.init('absolute', absolute.limit[k], '', '');
+			limitArray.push(limit);
+		}
+                callback(limitArray);
 	});
 };
-dns.prototype.getLimitTypes = function() {
-	make_request('/limits/types', 'GET', function(res) {
-		console.log(res);
+
+// List the types of limits
+dns.prototype.getLimitTypes = function(callback) {
+	make_request('limits/types', 'GET', null, function(res) {
+		callback(res);
 	});
 };
-dns.prototype.getSpecificLimit = function(type) {
-	make_request('/limits/' + type, 'GET', function(res) {
-		console.log(res);
+
+// List assigned limits of the specified type
+dns.prototype.getSpecificLimit = function(type, callback) {
+	make_request('limits/' + type, 'GET', null, function(res) {
+                callback(res);
 	});
 };
-dns.prototype.getRecords = function(domainId) {
-	make_request('domains/' + domainId + '/records', 'GET', function(res) {
-		console.log(res);
+
+// --------------------------------------------------------------------------------------------------
+// RECORDS APIS
+// --------------------------------------------------------------------------------------------------
+
+// List all records configured for the specified domain. SOA cannot be modified
+dns.prototype.getRecords = function(domainId, callback) {
+	make_request('domains/' + domainId + '/records', 'GET', null, function(res) {
+		var data = JSON.parse(res);
+                var records = data.records;
+                var recordArray = [];
+                for ( var i = 0; i < records.length; i++) {
+                        var record = new Record();
+                        record.init(records[i]);
+                        recordArray.push(record);
+                }
+                callback(recordArray);
 	});
 };
-dns.prototype.getRecordDetails = function(domainId, recordId) {
-	make_request('domains/' + domainId + '/records/' + recordId, 'GET', function(res) {
-		console.log(res);
+
+// List details for a specific record in the specified domain
+dns.prototype.getRecordDetails = function(domainId, recordId, callback) {
+	make_request('domains/' + domainId + '/records/' + recordId, 'GET', null, function(res) {
+		var data = JSON.pars(res);
+		var record = new Record();
+		record.init(data);
+		callback(record);
+	});
+};
+
+// Add new record(s) to the specified domain
+dns.prototype.addRecords = function(domainId, records, callback) {
+	make_request('domains/' + domainId + '/records', 'POST', records.toJSON(), function(res) {
+		callback(res);
+	});
+};
+
+// Modify the configuration of a record or records in the domain
+dns.prototype.modifyRecords = function(domainId, records, callback) {
+	var uri = '';
+	if (records.length == 1) uri = '/' + records[0].id;
+	make_request('domains/' + domainId + '/records' + uri, 'PUT', records.toJSON(), function(res) {
+		callback(res);
+	});
+};
+
+// Remove a record or multiple records from the domain
+dns.prototype.removeRecords = function(domainId, records, callback) {
+	var uri = '';
+	if (records.length == 1) {
+		uri = '/' + records[0].id;
+	} else {
+		for ( var i = 0; i < records.length; i++) {
+                	if (i == 0) uri += '?id=' + records[i].id;
+			else uri += '&id=' + records[i].id;
+		}
+	}
+	make_request('domains/' + domainId + '/records' + uri, 'DELETE', null, function(res) {
+		callback(res);
 	});
 };
 
 // --------------------------------------------------------------------------------------------------
 // UTILITY FUNCTIONS
 // --------------------------------------------------------------------------------------------------
-function make_request(path, method, callback) {
+function make_request(path, method, body, callback) {
 	var options = null;
 	var res = null;
 
@@ -118,7 +269,8 @@ function make_request(path, method, callback) {
 			}
 		};
 		var req = https.request(options);
-		req.write('{"credentials":{ "username": "kmulvey", "key": "d6cecb77f407e81b58a8dcfa7a33384b"}}');
+		req.write('{"credentials":{ "username": "' + dns.user_name + '", "key": "' + dns.key + '"}}');
+		console.log('Name : ' + dns.user_name + ', Key : ' + dns.key);
 		res = req.on('response', function(res) {
 			if (200 <= res.statusCode < 300) {
 				res.setEncoding('utf8');
@@ -128,30 +280,33 @@ function make_request(path, method, callback) {
 			}
 		});
 		req.on('error', function(e) {
-			console.error(e);
+			console.error('Err: ' + e);
 		});
 		req.end();
 	} else {
 		options = {
 			host : 'dns.api.rackspacecloud.com',
 			port : 443,
-			path : '/v1.0/' + this.acct_num + '/' + path,
+			path : '/v1.0/' + dns.acct_num + '/' + path,
 			method : method,
 			headers : {
-				'X-Auth-Token' : this.auth_token,
+				'X-Auth-Token' : dns.auth_token,
 				'Accept' : 'application/json'
 			}
 		};
 		console.log(options);
 		var req = https.request(options);
+		if (body != null && body != '') req.write(body);
 		res = req.on('response', function(res) {
-			res.setEncoding('utf8');
-			res.on('data', function(d) {
-				callback(d);
-			});
+			if (200 <= res.statusCode < 300) {
+				res.setEncoding('utf8');
+				res.on('data', function(d) {
+					callback(d);
+				});
+			}
 		});
 		req.on('error', function(e) {
-			console.error(e);
+			console.error('Err: ' + e);
 		});
 		req.end();
 	}

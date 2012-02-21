@@ -24,15 +24,12 @@ app.configure('production', function() {
 // send html page back
 app.get('/', function(req, res) {
 	domains = new dns();
-	km.init();
-	setTimeout(function() {
-		km.getDomains();
-	}, 2000);
+	//domains.init();
 
 	res.sendfile(__dirname + '/index.html');
 	console.log('conntected from ' + req.connection.remoteAddress);
 });
 
 // Start server
-app.listen(80);
+app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
