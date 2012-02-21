@@ -5,7 +5,11 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , dns = require('./dns');
+  , dns = require('./dns')
+  , db = require('./db')
+  , util = require('util')
+  , less = require('less')
+  , spawn = require('child_process').spawn;
 
 var app = module.exports = express.createServer();
 
@@ -15,8 +19,9 @@ var MemoryStore = require('connect').session.MemoryStore;
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
-  //app.set('view engine', 'jade');
+  app.set('view engine', 'jade');
   app.set('view options', {layout: false});
+  app.use(express.compiler({ src: __dirname + '/public/less', enable: ['less']}));
   app.register('.html', {
     compile: function(str, options){
       return function(locals){
@@ -40,18 +45,38 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
+
 var rsdns = new dns();
+var rsdb = new db();
+
 function checkSessionDns(req, res, next) {
   if (req.session.dns_name) {
     console.log("session exists " + req.session.dns_name);
     console.log("auth token " + req.session.dns_auth_token);
     console.log("acct num " + req.session.dns_acct_num);
+    next();
+  } else {
+	  res.render('index');
   }
-  else {
-    req.session.dns_name = 'kmulvey'; //replace later with redirect to login page
-    req.session.dns_key = 'd6cecb77f407e81b58a8dcfa7a33384b'; //once logged in, dns key will be retrieved from db
-  }
-  next();
+};
+
+function authenticate(req, res, next) {
+  console.log(req.body);
+  rsdb.getKey(req.body.username, function (err, data) {
+    if (err) throw err;
+    if( data) {
+      var dbres = JSON.parse(data);      
+      if (dbres.results.length == 0) {
+        res.render('login.html'); 
+      } else {
+        req.session.dns_name = dbres.results[0].name;
+        req.session.dns_key = dbres.results[0].key;
+        next();
+      }
+    } else {
+      res.render('login.html');
+    }
+  });
 };
 
 app.error(function(err, req, res, next){
@@ -62,7 +87,30 @@ app.error(function(err, req, res, next){
 
 app.get('/', checkSessionDns, routes.index);
 
-app.get('/details', checkSessionDns, routes.details);
+app.post('/domains', function(req, res){
+	res.render('domains');
+});
+
+app.get('/details', function(req, res){
+	res.render('details');
+});
+
+app.get('/details/:domainId', checkSessionDns, routes.details);
+
+app.get('/dig', function(req, res){
+	res.render('dig');
+});
+app.post('/dig', function(req, res){
+	dig = spawn('dig', [ req.body.type, '+trace', req.body.host ]);
+	dig.stdout.on('data', function(data) {
+		res.render('dig-result', {result: data});
+	});
+	dig.stderr.on('data', function(data) {
+		res.render('dig-result', {result: 'ERROR: ' + data});
+	});
+});
+
+app.post('/login', authenticate, routes.index);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

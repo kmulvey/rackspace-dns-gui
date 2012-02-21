@@ -1,0 +1,59 @@
+include includes/head
+include includes/nav-bar
+div.container-fluid.well
+	div.row-fluid
+	div.span1
+	div.span10
+		table(id='record-table').table.table-condensed
+			thead
+				tr
+					th 
+						span(id="add")
+							i.icon-plus-sign
+					th Name
+					th Type
+					th Value
+			tbody
+				tr
+					td
+						input(type="checkbox")
+					td
+						input(type="text", id="record-val", value="cdn.theorywednesday.com.").input-hidden
+					td
+						div.control-group
+							div.controls
+								select(id="record-type")
+									option A
+									option AAAA
+									option(selected) CNAME
+									option MX
+									option NS
+									option TXT
+									option SVR
+					td
+						input(type="text", id="record-val", value="2001:4800:7901:0000:d62a:c39b:0000:0001").input-hidden
+						
+		br
+		br
+		button(type="submit").btn.btn-large.btn-primary Save changes
+		button(type="reset").btn.btn-large Cancel
+	div.span1
+		
+script(src="/public/docs/assets/js/jquery.js")
+script
+	$("document").ready(function() {
+		$("#add").on('click', function(e) {
+			var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";
+			$("#record-table tbody").append(html);
+		});
+		$("#delete").on('click', function(e) {
+			var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";
+			$("#record-table tbody").append(html);
+		});
+		$('input[type="checkbox"]').change(function() {
+			if($(this).parents('tr').hasClass('delete'))
+				$(this).parents('tr').removeClass('delete label-important');
+			else
+				$(this).parents('tr').addClass('delete label-important');
+		});
+	});
