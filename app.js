@@ -13,6 +13,7 @@ var express = require('express')
 
 var app = module.exports = express.createServer();
 var trace_cmd = "tracepath";
+var trace_cmd_6 = "tracepath6";
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration
@@ -128,7 +129,12 @@ app.get('/traceroute', function(req, res){
 });
 app.post('/traceroute', function(req, res){
 	var output = "";
-	dig = spawn(trace_cmd, [ req.body.host ]);
+	if(req.body.v6 == 'on'){
+		dig = spawn(trace_cmd_6, [ req.body.host ]);
+	}
+	else{
+		dig = spawn(trace_cmd, [ req.body.host ]);
+	}
 	dig.stdout.on('data', function(data) {
 		output += data;
 	});

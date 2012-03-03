@@ -37,11 +37,26 @@ div(id="result").container.result.hidden
 script(src="/public/js/jquery.js")
 script
 	$('#submit').on('click', function(e){
+		$('.control-group').removeClass('error');
+		$('.control-group .help-inline').remove();
+		$('#result').addClass('hidden');
 		$('.progress').removeClass('hidden').addClass('active');
 		e.preventDefault();
+		var valid_hostname_regex = new RegExp("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$", "i");
+		var host = $('#host');
+		if(valid_hostname_regex.test(host.val()) != true){
+			host.after("<span class='help-inline'>Invalid Hostname</span>");
+			$('.control-group').addClass('error');
+			$('.progress').removeClass('active').addClass('hidden');
+			return false;
+		}
 		$.post('/dig', $('#dig-form').serialize(), function(data) {
 			$('pre.results').html(data);
 			$('#result').removeClass('hidden');
+			$('.progress').removeClass('active').addClass('hidden');
+		}).error(function() { 
+			host.after("<span class='help-inline'>Processing error.</span>");
+			$('.control-group').addClass('error');
 			$('.progress').removeClass('active').addClass('hidden');
 		});
 	});
