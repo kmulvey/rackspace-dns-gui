@@ -10,7 +10,7 @@ var details = module.exports = function(req, res){
   console.log(req.params.domainId);
   rsdns.getDomainDetails(req.params.domainId, true, 0, function(data) {
     console.log(data);
-    res.render('details.html');
+    res.render('details');
     //res.render('details.html', { title: data[0].toJSON() });
   });
 };

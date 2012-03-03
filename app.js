@@ -12,7 +12,8 @@ var express = require('express')
   , spawn = require('child_process').spawn;
 
 var app = module.exports = express.createServer();
-
+var trace_cmd = "tracepath";
+var trace_cmd_6 = "tracepath6";
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration
@@ -67,14 +68,14 @@ function authenticate(req, res, next) {
     if( data) {
       var dbres = JSON.parse(data);      
       if (dbres.results.length == 0) {
-        res.render('login.html'); 
+        res.render('index'); 
       } else {
         req.session.dns_name = dbres.results[0].name;
         req.session.dns_key = dbres.results[0].key;
         next();
       }
     } else {
-      res.render('login.html');
+      res.render('index');
     }
   });
 };
@@ -85,11 +86,9 @@ app.error(function(err, req, res, next){
 
 // Routes
 
-app.get('/', checkSessionDns, routes.index);
+app.get('/', checkSessionDns, routes.domains);
 
-app.post('/domains', function(req, res){
-	res.render('domains');
-});
+app.get('/domains', checkSessionDns, routes.domains);
 
 app.get('/details', function(req, res){
 	res.render('details');
@@ -103,14 +102,90 @@ app.get('/dig', function(req, res){
 app.post('/dig', function(req, res){
 	dig = spawn('dig', [ req.body.type, '+trace', req.body.host ]);
 	dig.stdout.on('data', function(data) {
-		res.render('dig-result', {result: data});
+		res.render('tools-result', {result: data});
 	});
-	dig.stderr.on('data', function(data) {
-		res.render('dig-result', {result: 'ERROR: ' + data});
+	dig.stderr.on('error', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
 	});
 });
 
-app.post('/login', authenticate, routes.index);
+app.get('/whois', function(req, res){
+	res.render('whois');
+});
+app.post('/whois', function(req, res){
+	dig = spawn('whois', [ req.body.host ]);
+	dig.stdout.on('data', function(data) {
+		res.render('tools-result', {result: data});
+	});
+	dig.stderr.on('error', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
+	});
+});
+
+app.get('/traceroute', function(req, res){
+	res.render('traceroute');
+});
+app.post('/traceroute', function(req, res){
+	var output = "";
+	if(req.body.v6 == 'on'){
+		dig = spawn(trace_cmd_6, [ req.body.host ]);
+	}
+	else{
+		dig = spawn(trace_cmd, [ req.body.host ]);
+	}
+	dig.stdout.on('data', function(data) {
+		output += data;
+	});
+	dig.stderr.on('end', function(data) {
+		res.render('tools-result', {result: output});
+	});
+	dig.stderr.on('close', function(data) {
+		res.render('tools-result', {result: output});
+	});
+	dig.stderr.on('error', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
+	});
+});
+
+app.get('/nslookup', function(req, res){
+	res.render('nslookup');
+});
+app.post('/nslookup', function(req, res){
+	dig = spawn('nslookup', [ req.body.host ]);
+	dig.stdout.on('data', function(data) {
+		res.render('tools-result', {result: data});
+	});
+	dig.stderr.on('error', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
+	});
+});
+
+app.get('/ping', function(req, res){
+	res.render('ping');
+});
+app.post('/ping', function(req, res){
+	var output = "";
+	if(req.body.v6 == 'on'){
+		dig = spawn('ping6', [ '-c 5', req.body.host ]);
+	}
+	else{
+		dig = spawn('ping', [ '-c 5', req.body.host ]);
+	}
+	dig.stdout.on('data', function(data) {
+		output += data;
+	});
+	dig.stderr.on('end', function(data) {
+		res.render('tools-result', {result: output});
+	});
+	dig.stderr.on('close', function(data) {
+		res.render('tools-result', {result: output});
+	});
+	dig.stderr.on('error', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
+	});
+});
+
+app.post('/login', authenticate, routes.domains);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

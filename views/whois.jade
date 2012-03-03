@@ -7,18 +7,10 @@ div.container
 			&nbsp;
 		div.span4
 			form(method='post', id='dig-form').well
-				legend Dig
+				legend Whois
 				div.control-group
 					input(type='text', id='host', name='host', placeholder="Host")
-					div.controls
-						select(id="type", name='type')
-							option(selected) A
-							option AAAA
-							option CNAME
-							option MX
-							option NS
-							option TXT
-							option SVR
+					br
 					button(type="submit", id='submit').btn.btn-primary.login-button Submit
 					br
 					div.progress.progress-info.progress-striped.hidden
@@ -50,7 +42,7 @@ script
 			$('.progress').removeClass('active').addClass('hidden');
 			return false;
 		}
-		$.post('/dig', $('#dig-form').serialize(), function(data) {
+		$.post('/whois', $('#dig-form').serialize(), function(data) {
 			$('pre.results').html(data);
 			$('#result').removeClass('hidden');
 			$('.progress').removeClass('active').addClass('hidden');

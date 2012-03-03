@@ -2,16 +2,32 @@ body
 	div.navbar.navbar-fixed-top
 		div.navbar-inner
 			div.container
-				a(class='btn btn-navbar')
+				a(class='btn btn-navbar', data-toggle="collapse", data-target=".nav-collapse")
 					span.icon-bar
 					span.icon-bar 
 					span.icon-bar
 				a(href='#').brand Rackspace DNS
 				div.nav-collapse
 					ul.nav
-						li.active
-							a(href='#') New Domain
 						li
-							a(href='#') About
-						li
-							a(href='#') Contact
+							a(href='/domains') Domains
+						li.dropdown
+							a(href='#', data-toggle="dropdown").dropdown-toggle Tools
+								b.caret
+							ul.dropdown-menu
+								li
+									a(href='/dig') Dig
+									a(href='/whois') WhoIs
+									a(href='/traceroute') Traceroute
+									a(href='/nslookup') Nslookup
+									a(href='/ping') Ping
+					ul.nav.pull-right
+						li.dropdown
+							a(href='#', data-toggle="dropdown").dropdown-toggle
+								i.icon-user.icon-white
+								b.caret
+							ul.dropdown-menu
+								li
+									a(href='#') Settings
+									a(href='#') Switch Account
+									a(href='#') Log Out

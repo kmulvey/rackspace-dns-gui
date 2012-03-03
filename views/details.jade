@@ -1,8 +1,10 @@
 include includes/head
 include includes/nav-bar
+
 div.container-fluid.well
 	div.row-fluid
 	div.span1
+		&nbsp;
 	div.span10
 		table(id='record-table').table.table-condensed
 			thead
@@ -38,8 +40,9 @@ div.container-fluid.well
 		button(type="submit").btn.btn-large.btn-primary Save changes
 		button(type="reset").btn.btn-large Cancel
 	div.span1
+		&nbsp;
 		
-script(src="/public/docs/assets/js/jquery.js")
+script(src="/public/js/jquery.js")
 script
 	$("document").ready(function() {
 		$("#add").on('click', function(e) {
@@ -57,3 +60,5 @@ script
 				$(this).parents('tr').addClass('delete label-important');
 		});
 	});
+
+include includes/footer

@@ -1,8 +1,10 @@
 include includes/head
 include includes/nav-bar
-div.container-fluid well
+
+div.container-fluid.well
 	div.row-fluid
 	div.span1
+		&nbsp;
 	div.span10
 		table.table.table-condensed
 			thead
@@ -10,14 +12,29 @@ div.container-fluid well
 					th
 					th Domain Name
 					th Domain ID
-					th Something Else
+					th Comment
+					th Account ID
+					th TTL
+					th Email Address
+					th Updated
+					th Created
 			tbody
-				tr
-					td
-						input(type="checkbox")
-					td
-						a(href="/details") theorywednesday.com.
-					td 12345
-					td lorem ispum
+				- each domain in domains
+					tr
+						td
+							input(type="checkbox")
+						td
+							a(href="/details")= domain.name
+						td= domain.id
+						td= domain.comment
+						td= domain.accountId
+						td= domain.ttl
+						td= domain.emailAddress
+						td= domain.updated
+						td= domain.created
+
 	div.span1
-script(src="/public/docs/assets/js/jquery.js")
+		&nbsp;
+script(src="/public/js/jquery.js")
+
+include includes/footer
