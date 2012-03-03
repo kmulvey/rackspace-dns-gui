@@ -9,8 +9,14 @@ body
 				a(href='#').brand Rackspace DNS
 				div.nav-collapse
 					ul.nav
-						li.active
-							a(href='#') DNS Tools
+						li.dropdown
+							a(href='#', data-toggle="dropdown").dropdown-toggle Tools
+								b.caret
+							ul.dropdown-menu
+								li
+									a(href='/dig') Dig
+									a(href='/whois') WhoIs
+									a(href='/traceroute') Traceroute
 					ul.nav.pull-right
 						li.dropdown
 							a(href='#', data-toggle="dropdown").dropdown-toggle

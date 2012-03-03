@@ -15,4 +15,7 @@
 - HTTPS (maybe)										J/K
 - forgot password									J
 	- needs page									K
-- remove test/old/unecessary files						J/K
+- remove test/old/unecessary files					J/K
+- settings page										K
+	- process updates from form						J
+- logout											J

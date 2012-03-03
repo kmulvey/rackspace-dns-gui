@@ -1,31 +1,46 @@
 include includes/head
 include includes/nav-bar
+
 div.container
 	div.row-fluid
-		div.span2
-		div.span8
-			form(method='post', id='dig-form').well.form-inline
-				input(type='text', id='host', name='host', placeholder="Host").input-small.span3
-				input(type='text', name='type', placeholder="Type").input-small.span1
-				button(type="submit", id='submit').btn Submit
-				br
-				div.progress.progress-info.progress-striped.hidden
-					div(style='width: 40%;').bar
-		div.span2
-div.container.result
+		div.span4
+			&nbsp;
+		div.span4
+			form(method='post', id='dig-form').well
+				div.control-group
+					input(type='text', id='host', name='host', placeholder="Host")
+					div.controls
+						select(id="type", name='type')
+							option A
+							option AAAA
+							option(selected) CNAME
+							option MX
+							option NS
+							option TXT
+							option SVR
+					button(type="submit", id='submit').btn.btn-primary.login-button Submit
+					br
+					div.progress.progress-info.progress-striped.hidden
+						div(style='width: 40%;').bar
+		div.span4
+			&nbsp;
+div(id="result").container.result.hidden
 	div.row-fluid
 		div.span2
+			&nbsp;
 		div.span8
 			pre.results
 		div.span2
+			&nbsp;
 		
-script(src="/public/docs/assets/js/jquery.js")
+script(src="/public/js/jquery.js")
 script
 	$('#submit').on('click', function(e){
 		$('.progress').removeClass('hidden').addClass('active');
 		e.preventDefault();
 		$.post('/dig', $('#dig-form').serialize(), function(data) {
 			$('pre.results').html(data);
+			$('#result').removeClass('hidden');
 			$('.progress').removeClass('active').addClass('hidden');
 		});
 	});
@@ -33,3 +48,5 @@ script
 		$('#submit').click();
 		return false;
 	});
+	
+include includes/footer
