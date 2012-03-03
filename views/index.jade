@@ -2,13 +2,35 @@ include includes/head
 include includes/nav-bar
 div.container
 	div.row-fluid
-		div.span2
-		div.span8
-			form(id='dig-form', method="post", action="/domains").well.form-inline
-				input(type='text', id='username', name='username', placeholder="Username").input-small.span2
-				input(type='password', id='password', name='password', placeholder="Password").input-small.span2
-				button(type="submit", id='submit').btn Submit
-				br
-				div.progress.progress-info.progress-striped.hidden
-					div(style='width: 40%;').bar
-		div.span2
+		div.span4
+			&nbsp;
+		div.span4
+			form(id='signin-form', method="post", action="/signin").well
+				legend Sign in
+				div.control-group
+					input(type='text', id='username', name='username', placeholder="Username")
+					input(type='password', id='password', name='password', placeholder="Password")
+					button(type="submit", id='submit').btn.btn-primary.login-button Submit
+					br
+					span
+						a forgot password
+		div.span4
+			&nbsp;
+	div.row-fluid
+		div.span4
+			&nbsp;
+		div.span4
+			form(id='signup-form', method="post", action="/signup").well
+				legend Sign up
+				div.control-group
+					input(type='text', id='username', name='username', placeholder="Username")
+					input(type='text', id='email', name='email', placeholder="Email")
+					input(type='password', id='password', name='password', placeholder="Password")
+					input(type='text', id='r_username', name='r_username', placeholder="Rackspace Username")
+					input(type='text', id='r_api_key', name='r_api_key', placeholder="Rackspace API Key")
+					button(type="submit", id='submit').btn.btn-primary.login-button Submit
+		div.span4
+			&nbsp;			
+		
+script(src="/public/js/jquery.js")
+script(src="/public/js/bootstrap-alert.js")
