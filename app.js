@@ -143,6 +143,19 @@ app.post('/traceroute', function(req, res){
 	});
 });
 
+app.get('/nslookup', function(req, res){
+	res.render('nslookup');
+});
+app.post('/nslookup', function(req, res){
+	dig = spawn('nslookup', [ req.body.host ]);
+	dig.stdout.on('data', function(data) {
+		res.render('tools-result', {result: data});
+	});
+	dig.stderr.on('error', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
+	});
+});
+
 app.post('/login', authenticate, routes.index);
 
 app.listen(3000);
