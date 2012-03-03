@@ -88,6 +88,10 @@ app.error(function(err, req, res, next){
 
 app.get('/', checkSessionDns, routes.index);
 
+app.get('/domains', function(req, res){
+	res.render('domains');
+});
+
 app.post('/domains', function(req, res){
 	res.render('domains');
 });

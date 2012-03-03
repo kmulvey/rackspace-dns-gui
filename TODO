@@ -24,3 +24,4 @@
 	- server										J
 - find better hostname regex						K
 - make a config file								J/K
+- if login success render /domains					J
