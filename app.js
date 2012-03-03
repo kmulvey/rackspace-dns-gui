@@ -103,10 +103,23 @@ app.get('/dig', function(req, res){
 app.post('/dig', function(req, res){
 	dig = spawn('dig', [ req.body.type, '+trace', req.body.host ]);
 	dig.stdout.on('data', function(data) {
-		res.render('dig-result', {result: data});
+		res.render('tools-result', {result: data});
 	});
 	dig.stderr.on('data', function(data) {
-		res.render('dig-result', {result: 'ERROR: ' + data});
+		res.render('tools-result', {result: 'ERROR: ' + data});
+	});
+});
+
+app.get('/whois', function(req, res){
+	res.render('whois');
+});
+app.post('/whois', function(req, res){
+	dig = spawn('whois', [ req.body.host ]);
+	dig.stdout.on('data', function(data) {
+		res.render('tools-result', {result: data});
+	});
+	dig.stderr.on('data', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
 	});
 });
 

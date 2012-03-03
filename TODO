@@ -19,3 +19,7 @@
 - settings page										K
 	- process updates from form						J
 - logout											J
+- form validation
+	- client										K
+	- server										J
+- find better hostname regex						K
