@@ -12,7 +12,7 @@ var express = require('express')
   , spawn = require('child_process').spawn;
 
 var app = module.exports = express.createServer();
-
+var trace_cmd = "tracepath";
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration
@@ -105,7 +105,7 @@ app.post('/dig', function(req, res){
 	dig.stdout.on('data', function(data) {
 		res.render('tools-result', {result: data});
 	});
-	dig.stderr.on('data', function(data) {
+	dig.stderr.on('error', function(data) {
 		res.render('tools-result', {result: 'ERROR: ' + data});
 	});
 });
@@ -118,7 +118,27 @@ app.post('/whois', function(req, res){
 	dig.stdout.on('data', function(data) {
 		res.render('tools-result', {result: data});
 	});
-	dig.stderr.on('data', function(data) {
+	dig.stderr.on('error', function(data) {
+		res.render('tools-result', {result: 'ERROR: ' + data});
+	});
+});
+
+app.get('/traceroute', function(req, res){
+	res.render('traceroute');
+});
+app.post('/traceroute', function(req, res){
+	var output = "";
+	dig = spawn(trace_cmd, [ req.body.host ]);
+	dig.stdout.on('data', function(data) {
+		output += data;
+	});
+	dig.stderr.on('end', function(data) {
+		res.render('tools-result', {result: output});
+	});
+	dig.stderr.on('close', function(data) {
+		res.render('tools-result', {result: output});
+	});
+	dig.stderr.on('error', function(data) {
 		res.render('tools-result', {result: 'ERROR: ' + data});
 	});
 });
