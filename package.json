@@ -14,8 +14,8 @@
     "contributors": [],
     "licenses": [
         {
-            "type": "MIT",
-            "url": "http://mths.be/mit"
+            "type": "Apache License version 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     ],
     "engines": {
