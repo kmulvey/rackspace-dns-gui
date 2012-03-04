@@ -12,15 +12,27 @@ div.container-fluid.well
 					th
 					th Domain Name
 					th Domain ID
-					th Something Else
+					th Comment
+					th Account ID
+					th TTL
+					th Email Address
+					th Updated
+					th Created
 			tbody
-				tr
-					td
-						input(type="checkbox")
-					td
-						a(href="/details") theorywednesday.com.
-					td 12345
-					td lorem ispum
+				- each domain in domains
+					tr
+						td
+							input(type="checkbox")
+						td
+							a(href="/details/"+domain.id)= domain.name
+						td= domain.id
+						td= domain.comment
+						td= domain.accountId
+						td= domain.ttl
+						td= domain.emailAddress
+						td= domain.updated
+						td= domain.created
+
 	div.span1
 		&nbsp;
 script(src="/public/js/jquery.js")
