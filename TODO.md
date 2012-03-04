@@ -9,7 +9,7 @@
 - handle multieple API keys/acct					
 	- toggle on client								
 - some kind of settings page						
-- testing  http://jawsjs.com/						
+- testing  http://vowsjs.org/
 - make sure all pages are responsive				
 - route all requests through auth					
 	- if no session, require login
