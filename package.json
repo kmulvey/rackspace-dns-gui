@@ -1,10 +1,31 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.2"
-    , "less": ">= 0.0.1"
-    , "jade": ">= 0.0.1"
-  }
+    "name": "application-name",
+    "version": "0.0.1",
+    "private": true,
+    "maintainers": [
+        {
+            "name": "Kevin Mulvey",
+            "web": "http://kevinmulvey.net"
+        },
+        {
+            "name": "Joseph Li"
+        }
+    ],
+    "contributors": [],
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://mths.be/mit"
+        }
+    ],
+    "engines": {
+        "node": ">= 0.6.0"
+    },
+    "dependencies": {
+        "express": "2.5.2",
+        "less": ">= 1.2.2",
+        "jade": ">= 0.20.3",
+        "step": ">= 0.0.5",
+        "db-mysql": ">= 0.7.6"
+    }
 }

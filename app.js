@@ -9,11 +9,10 @@ var express = require('express')
   , db = require('./db')
   , util = require('util')
   , less = require('less')
-  , spawn = require('child_process').spawn;
+  , spawn = require('child_process').spawn,
+  	config = require('./config');
 
 var app = module.exports = express.createServer();
-var trace_cmd = "tracepath";
-var trace_cmd_6 = "tracepath6";
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration
@@ -134,10 +133,10 @@ app.get('/traceroute', function(req, res){
 app.post('/traceroute', function(req, res){
 	var output = "";
 	if(req.body.v6 == 'on'){
-		dig = spawn(trace_cmd_6, [ req.body.host ]);
+		dig = spawn(config.trace_cmd_6, [ req.body.host ]);
 	}
 	else{
-		dig = spawn(trace_cmd, [ req.body.host ]);
+		dig = spawn(config.trace_cmd, [ req.body.host ]);
 	}
 	dig.stdout.on('data', function(data) {
 		output += data;
@@ -193,5 +192,5 @@ app.post('/ping', function(req, res){
 
 app.post('/login', authenticate, routes.index);
 
-app.listen(3000);
+app.listen(config.node_port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
