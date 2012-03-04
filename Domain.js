@@ -1,5 +1,5 @@
 var Domain = module.exports = function Domain() {
-        name = '', id = '', comment = '', accountId = '', ttl = '', emailAddress = '', updated = '', created = '';
+	name = '', id = '', comment = '', accountId = '', ttl = '', emailAddress = '', updated = '', created = '';
 };
 
 Domain.prototype.init = function(arg) {
@@ -13,7 +13,7 @@ Domain.prototype.init = function(arg) {
 	this.created = arg.created;
 }
 
-Domain.prototype.toJSON = function () {
+Domain.prototype.toJSON = function() {
 	var output = '{ "name" : "' + this.name + '", "id" : "' + this.id + '", "comment" : "' + this.comment + '", ';
 	output = output + '"accountId" : "' + this.accountId + '", "ttl" : "' + this.ttl + '", "emailAddress" : "' + this.emailAddress + '", ';
 	output = output + '"updated" : "' + this.updated + '", "created" : "' + this.created + '" }';

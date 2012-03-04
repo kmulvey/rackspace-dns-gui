@@ -7,39 +7,24 @@ var Record = require('./Record');
 var Limit = require('./Limit');
 
 var dns = module.exports = function dns() {
-	user_name = '', key = '', auth_token = '', acct_num = ''; 
+	user_name = '', key = '', auth_token = '', acct_num = '';
 };
 
 // don't really need to use step now, should remove later.
-dns.prototype.initialize = Step.fn (
-	function getToken(name, key) {
-		dns.user_name = name;
-		dns.key = key;
-		make_request(null, 'POST', null, this);
-	},
-	function parseToken(res) {
-		var data = JSON.parse(res);
-		dns.auth_token = data.auth.token.id;
-		var url = data.auth.serviceCatalog.cloudServers[0].publicURL;
-		var cut = url.split('/');
-		dns.acct_num = cut[cut.length - 1];
-		return '{ "auth_token" : "' + dns.auth_token + '",  "acct_num" : "' +  dns.acct_num + '" }';
-	} /*,
-	function getDomains(err, acctNum) {
-		if (err) throw err;
-                make_request('domains', 'GET', null, this);
-	},
-	function returnBack(res) {
-		var data = JSON.parse(res);
-                var domains = data.domains;
-                var domainArray = [];
-                for ( var i = 0; i < domains.length; i++) {
-                        var domain = new Domain();
-                        domain.init(domains[i]);
-                        domainArray.push(domain);
-                }
-		return domainArray;
-	}*/
+dns.prototype.initialize = Step.fn(function getToken(name, key) {
+	dns.user_name = name;
+	dns.key = key;
+	make_request(null, 'POST', null, this);
+}, function parseToken(res) {
+	var data = JSON.parse(res);
+	dns.auth_token = data.auth.token.id;
+	var url = data.auth.serviceCatalog.cloudServers[0].publicURL;
+	var cut = url.split('/');
+	dns.acct_num = cut[cut.length - 1];
+	return '{ "auth_token" : "' + dns.auth_token + '",  "acct_num" : "' + dns.acct_num + '" }';
+} /*
+	 * , function getDomains(err, acctNum) { if (err) throw err; make_request('domains', 'GET', null, this); }, function returnBack(res) { var data = JSON.parse(res); var domains = data.domains; var domainArray = []; for ( var i = 0; i < domains.length; i++) { var domain = new Domain(); domain.init(domains[i]); domainArray.push(domain); } return domainArray; }
+	 */
 );
 
 // --------------------------------------------------------------------------------------------------
@@ -57,7 +42,7 @@ dns.prototype.getDomains = function(callback) {
 			domain.init(domains[i]);
 			domainArray.push(domain);
 		}
-		callback(domainArray);	
+		callback(domainArray);
 	});
 };
 
@@ -119,7 +104,8 @@ dns.prototype.importDomains = function(domain, callback) {
 // Modify the configuration of a domain or domains
 dns.prototype.modifyDomains = function(domains, callback) {
 	var uri = '';
-	if (domains.length == 1) uri = '/' + domains[0].id;
+	if (domains.length == 1)
+		uri = '/' + domains[0].id;
 	make_request('domains' + uri, 'PUT', domains.toJSON(), function(res) {
 		callback(res);
 	});
@@ -133,13 +119,17 @@ dns.prototype.removeDomains = function(domains, subdomains, callback) {
 
 	if (domains.length == 1) {
 		uri = '/' + domains[0].id;
-		if (subdomains) uri += '?deleteSubdomains=true';
+		if (subdomains)
+			uri += '?deleteSubdomains=true';
 	} else {
 		for ( var i = 0; i < domains.length; i++) {
-			if (i == 0) uri += '?id=' + domains[i].id;
-			else uri += '&id=' + domains[i].id;
+			if (i == 0)
+				uri += '?id=' + domains[i].id;
+			else
+				uri += '&id=' + domains[i].id;
 		}
-		if (subdomains) uri += '&deleteSubdomains=true';
+		if (subdomains)
+			uri += '&deleteSubdomains=true';
 	}
 	make_request('domains' + uri, 'DELETE', null, function(res) {
 		callback(res);
@@ -154,25 +144,25 @@ dns.prototype.removeDomains = function(domains, subdomains, callback) {
 dns.prototype.getLimits = function(callback) {
 	make_request('limits', 'GET', null, function(res) {
 		var data = JSON.parse(res);
-                var rates = data.rates.rate;
+		var rates = data.rates.rate;
 		var absolute = data.absolute;
-                var limitArray = [];
+		var limitArray = [];
 		var limit;
 		var rate;
-                for ( var i = 0; i < rates.length; i++) {
-                        rate = rates[i];
-			for (var j = 0; j < rate.limit.length; j++) {
+		for ( var i = 0; i < rates.length; i++) {
+			rate = rates[i];
+			for ( var j = 0; j < rate.limit.length; j++) {
 				limit = new Limit();
-                        	limit.init('rates', rate.limit[j], rate.uri, rate.regex);
-                        	limitArray.push(limit);
+				limit.init('rates', rate.limit[j], rate.uri, rate.regex);
+				limitArray.push(limit);
 			}
-                }
-		for (var k = 0; k < absolute.limit.length; k++) {
+		}
+		for ( var k = 0; k < absolute.limit.length; k++) {
 			limit = new Limit();
 			limit.init('absolute', absolute.limit[k], '', '');
 			limitArray.push(limit);
 		}
-                callback(limitArray);
+		callback(limitArray);
 	});
 };
 
@@ -186,7 +176,7 @@ dns.prototype.getLimitTypes = function(callback) {
 // List assigned limits of the specified type
 dns.prototype.getSpecificLimit = function(type, callback) {
 	make_request('limits/' + type, 'GET', null, function(res) {
-                callback(res);
+		callback(res);
 	});
 };
 
@@ -198,14 +188,14 @@ dns.prototype.getSpecificLimit = function(type, callback) {
 dns.prototype.getRecords = function(domainId, callback) {
 	make_request('domains/' + domainId + '/records', 'GET', null, function(res) {
 		var data = JSON.parse(res);
-                var records = data.records;
-                var recordArray = [];
-                for ( var i = 0; i < records.length; i++) {
-                        var record = new Record();
-                        record.init(records[i]);
-                        recordArray.push(record);
-                }
-                callback(recordArray);
+		var records = data.records;
+		var recordArray = [];
+		for ( var i = 0; i < records.length; i++) {
+			var record = new Record();
+			record.init(records[i]);
+			recordArray.push(record);
+		}
+		callback(recordArray);
 	});
 };
 
@@ -229,7 +219,8 @@ dns.prototype.addRecords = function(domainId, records, callback) {
 // Modify the configuration of a record or records in the domain
 dns.prototype.modifyRecords = function(domainId, records, callback) {
 	var uri = '';
-	if (records.length == 1) uri = '/' + records[0].id;
+	if (records.length == 1)
+		uri = '/' + records[0].id;
 	make_request('domains/' + domainId + '/records' + uri, 'PUT', records.toJSON(), function(res) {
 		callback(res);
 	});
@@ -242,8 +233,10 @@ dns.prototype.removeRecords = function(domainId, records, callback) {
 		uri = '/' + records[0].id;
 	} else {
 		for ( var i = 0; i < records.length; i++) {
-                	if (i == 0) uri += '?id=' + records[i].id;
-			else uri += '&id=' + records[i].id;
+			if (i == 0)
+				uri += '?id=' + records[i].id;
+			else
+				uri += '&id=' + records[i].id;
 		}
 	}
 	make_request('domains/' + domainId + '/records' + uri, 'DELETE', null, function(res) {
@@ -296,7 +289,8 @@ function make_request(path, method, body, callback) {
 		};
 		console.log(options);
 		var req = https.request(options);
-		if (body != null && body != '') req.write(body);
+		if (body != null && body != '')
+			req.write(body);
 		res = req.on('response', function(res) {
 			if (200 <= res.statusCode < 300) {
 				res.setEncoding('utf8');

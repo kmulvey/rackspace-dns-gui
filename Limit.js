@@ -1,5 +1,5 @@
 var Limit = module.exports = function Limit() {
-        type = '', uri = '', name = '', value = '', verb = '', unit = '', regex = '';
+	type = '', uri = '', name = '', value = '', verb = '', unit = '', regex = '';
 };
 
 Limit.prototype.init = function(type, limit, uri, regex) {
@@ -12,7 +12,7 @@ Limit.prototype.init = function(type, limit, uri, regex) {
 	this.regex = regex;
 }
 
-Limit.prototype.toJSON = function () {
+Limit.prototype.toJSON = function() {
 	var output = '{ "type" : "' + this.type + '", "uri" : "' + this.uri + '", "name" : "' + this.name + '", ';
 	output = output + '"value" : "' + this.value + '", "verb" : "' + this.verb + '", ';
 	output = output + '"unit" : "' + this.unit + '", "regex" : "' + this.regex + '" }';

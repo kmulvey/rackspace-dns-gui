@@ -24,7 +24,7 @@ app.configure('production', function() {
 // send html page back
 app.get('/', function(req, res) {
 	domains = new dns();
-	//domains.init();
+	// domains.init();
 
 	res.sendfile(__dirname + '/index.html');
 	console.log('conntected from ' + req.connection.remoteAddress);

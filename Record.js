@@ -1,5 +1,5 @@
 var Record = module.exports = function Record() {
-        name = '', id = '', type = '', data = '', ttl = '', updated = '', created = '';
+	name = '', id = '', type = '', data = '', ttl = '', updated = '', created = '';
 };
 
 Record.prototype.init = function(arg) {
@@ -12,7 +12,7 @@ Record.prototype.init = function(arg) {
 	this.created = arg.created;
 }
 
-Record.prototype.toJSON = function () {
+Record.prototype.toJSON = function() {
 	var output = '{ "name" : "' + this.name + '", "id" : "' + this.id + '", "type" : "' + this.type + '", ';
 	output = output + '"data" : "' + this.data + '", "ttl" : "' + this.ttl + '", ';
 	output = output + '"updated" : "' + this.updated + '", "created" : "' + this.created + '" }';

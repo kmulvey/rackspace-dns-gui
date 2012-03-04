@@ -10,13 +10,12 @@ var express = require('express')
   , util = require('util')
   , less = require('less')
   , spawn = require('child_process').spawn,
-  	config = require('./config');
+   	config = require('./config');
 
 var app = module.exports = express.createServer();
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -84,7 +83,6 @@ app.error(function(err, req, res, next){
 });
 
 // Routes
-
 app.get('/', checkSessionDns, routes.index);
 
 app.get('/domains', function(req, res){
