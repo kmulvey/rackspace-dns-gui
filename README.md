@@ -18,19 +18,22 @@ jade:
 	npm install [-g] jade 
 	
 step:
+
 	npm install [-g] step
 	
 db-mysql:
+
 	npm install [-g] db-mysql
 	
 mailer:
+
 	npm install [-g] mailer
 
 ### Required changes
 
 System spcific variables:	
 
-	change the values in config.js to reflect your system
+	Change the values in config.js to reflect your system
 
 ### License
 

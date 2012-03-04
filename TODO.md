@@ -1,5 +1,10 @@
-- convert css to LESS and compile on server   		K/J
-- validation of user login							J
+### TODO
+
+	- convert css to LESS and compile on server   		K/J
+	- validation of user login							J
+	
+
+
 	- display error on client						K				
 - fix alignment of login box						K
 - send form changes back to server					K
