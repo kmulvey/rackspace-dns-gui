@@ -2,7 +2,6 @@
 - validation of user login							J
 	- display error on client						K				
 - fix alignment of login box						K
-- fix alignment of 									K
 - send form changes back to server					K
 	- process changes								J
 - handle multieple API keys/acct					J

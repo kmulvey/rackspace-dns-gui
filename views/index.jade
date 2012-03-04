@@ -13,7 +13,7 @@ div.container
 					button(type="submit", id='submit').btn.btn-primary.login-button Submit
 					br
 					span
-						a forgot password
+						a(data-toggle="modal", href="#forgot_modal").btn forgot password?
 		div.span4
 			&nbsp;
 	div.row-fluid
@@ -30,9 +30,33 @@ div.container
 					input(type='text', id='r_api_key', name='r_api_key', placeholder="Rackspace API Key")
 					button(type="submit", id='submit').btn.btn-primary.login-button Submit
 		div.span4
-			&nbsp;			
-		
+			&nbsp;	
+					
+div(id="forgot_modal").modal.fade
+	div.modal-header
+		a(data-dismiss="modal").close x
+		h3 
+			Modal header
+	div.modal-body
+		form(id='signup-form')
+			div.control-group
+				input(type='text', id='email', name='email', placeholder="Email")
+	div.modal-footer
+		a(href="#").btn.btn-primary Submit
+		a(href="#", id="close").btn Close
+
 script(src="/public/js/jquery.js")
 script(src="/public/js/bootstrap-alert.js")
+script(src="/public/js/bootstrap-modal.js")
+script(src="/public/js/bootstrap-transition.js")
+script
+	$('#forgot_modal').modal({
+		keyboard: true,
+		show: false
+	});
+	$('#forgot_modal').modal('hide');
+	$('#close').on('click', function(){
+		$('#forgot_modal').modal('hide');
+	});
 
 include includes/footer
