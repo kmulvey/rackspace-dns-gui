@@ -44,7 +44,7 @@ div(id="forgot_modal").modal.fade
 			div.control-group
 				input(type='text', id='email', name='email', placeholder="Email")
 	div.modal-footer
-		a(href="#").btn.btn-primary Submit
+		a(href="#", id="reset_submit").btn.btn-primary Submit
 		a(href="#", id="close").btn Close
 
 script(src="/public/js/jquery.js")
@@ -60,5 +60,21 @@ script
 	$('#close').on('click', function(){
 		$('#forgot_modal').modal('hide');
 	});
+	$('#reset_submit').on('click', function(e){
+		$.post('/passwd_reset', $('#signup-form').serialize(), function(data) {
+			if(data == true){
+				$('#forgot_modal').modal('hide');
+			}
+			else{
+				$('#forgot_modal #email').after("<span class='help-inline'>Processing error.</span>");
+				$('#forgot_modal .control-group').addClass('error');
+			}
+			
+		}).error(function() { 
+			$('#forgot_modal #email').after("<span class='help-inline'>Processing error.</span>");
+			$('#forgot_modal .control-group').addClass('error');
+		});
+	});
+	
 
 include includes/footer
