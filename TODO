@@ -12,16 +12,16 @@
 - route all requests through auth					J
 	- if no session, require login
 - HTTPS (maybe)										J/K
-- forgot password									J
-	- needs page									K
+- forgot password									J			need to generate dynamic url
+	- needs page									K			done
 - remove test/old/unecessary files					J/K
 - settings page										K
 	- process updates from form						J
 - logout											J
 - form validation
-	- client										K
+	- client										K			need better regex
 	- server										J
 - find better hostname regex						K
-- make a config file								J/K
+- make a config file								J/K			config.js
 - if login success render /domains					J
 - passwords 

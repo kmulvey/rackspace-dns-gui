@@ -5,6 +5,10 @@ var config = {
     db_user : "root",
     db_password : "keepouthax0rz",
     db_database : "rsdns",
-    node_port : "3000"
+    node_port : "3000",
+    smtp_host : "localhost",
+    smtp_domain : "localhost",
+    smtp_port: "25",
+    email_from : "dns@resin.theorywednesday.com"
 };
 module.exports = config;

@@ -222,13 +222,13 @@ app.post('/ping', function(req, res) {
 
 app.post('/passwd_reset', function(req, res) {
 	email.send({
-		host : "localhost", // smtp server hostname
-		port : "25", // smtp server port
-		domain : "localhost", // domain used by client to identify itself to server
+		host : config.smtp_host, 
+		port : config.smtp_port, 
+		domain : config.smtp_domain, 
 		to : "king.feruke@gmail.com",
-		from : "kmulvey@resin.theorywednesday.com",
+		from : config.mail_from,
 		subject : "DNS Password reset",
-		template : "reset_email.txt", // path to template name
+		template : "reset_email.txt",
 		data : {
 			"name" : "Kevin",
 			"url" : "http://theorywednesday.com"
