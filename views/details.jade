@@ -13,27 +13,37 @@ div.container-fluid.well
 						span(id="add")
 							i.icon-plus-sign
 					th Name
+					th ID
 					th Type
-					th Value
+					th Data
+					th TTL
+					th Updated
+					th Created
 			tbody
-				tr
-					td
-						input(type="checkbox")
-					td
-						input(type="text", id="record-val", value="cdn.theorywednesday.com.").input-hidden
-					td
-						div.control-group
-							div.controls
-								select(id="record-type")
-									option A
-									option AAAA
-									option(selected) CNAME
-									option MX
-									option NS
-									option TXT
-									option SVR
-					td
-						input(type="text", id="record-val", value="2001:4800:7901:0000:d62a:c39b:0000:0001").input-hidden
+				- each record in records
+					tr
+						td
+							input(type="checkbox")
+						td
+							input(type="text", id="record-val", value=record.name).input-hidden
+						td= record.id
+						td
+							div.control-group
+								div.controls
+									select(id="record-type")
+										option(selected=('A'==record.type?'selected':null)) A
+										option(selected=('AAAA'==record.type?'selected':null)) AAAA
+										option(selected=('CNAME'==record.type?'selected':null)) CNAME
+										option(selected=('MX'==record.type?'selected':null)) MX
+										option(selected=('NS'==record.type?'selected':null)) NS
+										option(selected=('TXT'==record.type?'selected':null)) TXT
+										option(selected=('SVR'==record.type?'selected':null)) SVR
+						td
+							input(type="text", id="record-val", value=record.data).input-hidden
+						td
+							input(type="text", id="record-val", value=record.ttl).input-hidden
+						td= record.updated
+						td= record.created
 						
 		br
 		br

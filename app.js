@@ -80,6 +80,14 @@ function authenticate(req, res, next) {
   });
 };
 
+function logout(req, res, next) {
+  req.session.dns_name = null;
+  req.session.dns_auth_token = null;
+  req.session.dns_acct_num = null;
+  req.session.dns_key = null;
+  next();
+};
+
 app.error(function(err, req, res, next){
   console.log(err); 
 });
@@ -90,7 +98,7 @@ app.get('/', checkSessionDns, routes.domains);
 
 app.get('/domains', checkSessionDns, routes.domains);
 
-app.get('/details', function(req, res){
+app.get('/details', checkSessionDns, function(req, res){
 	res.render('details');
 });
 
@@ -186,6 +194,8 @@ app.post('/ping', function(req, res){
 });
 
 app.post('/login', authenticate, routes.domains);
+
+app.get('/logout', logout, routes.index);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
