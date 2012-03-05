@@ -1,6 +1,6 @@
 var https = require('https');
 var routes = require('./routes');
-var Step = require('./step');
+var Step = require('step');
 
 var Domain = require('./Domain');
 var Record = require('./Record');

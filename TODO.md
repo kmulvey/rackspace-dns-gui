@@ -1,5 +1,6 @@
 ### TODO
 
+- move all the routing out of app.js
 - convert css to LESS and compile on server  
 - validation of user login							
 	- display error on client						

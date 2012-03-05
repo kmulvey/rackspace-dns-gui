@@ -243,6 +243,16 @@ app.post('/passwd_reset', function(req, res) {
 	});
 });
 
+app.post('/create_acct', function(req, res) {
+	rsdb.addUser(req.body.username, req.body.r_api_key, req.body.password, req.body.email, req.body.r_username, function(err, data) {
+		if (err)
+			throw err;
+		if (data) {
+			res.send(data);
+		}
+	});
+});
+
 app.post('/login', authenticate, routes.index);
 
 app.listen(config.node_port);

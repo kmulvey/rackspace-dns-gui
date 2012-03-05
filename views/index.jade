@@ -5,13 +5,13 @@ div.container
 		div.span4
 			&nbsp;
 		div.span4
-			form(id='signin-form', method="post", action="/domains").well
+			form(id='signin_form', method="post", action="/domains").well
 				legend Sign in
 				div.control-group
 					input(type='text', id='username', name='username', placeholder="Username")
 					input(type='password', id='password', name='password', placeholder="Password")
 					br
-					button(type="submit", id='submit').btn.btn-primary.login-button Submit
+					button(type="submit", id='signin_submit').btn.btn-primary.login-button Submit
 					br
 					span
 						a(data-toggle="modal", href="#forgot_modal").btn forgot password?
@@ -21,7 +21,7 @@ div.container
 		div.span4
 			&nbsp;
 		div.span4
-			form(id='signup-form', method="post", action="/signup").well
+			form(id='signup_form').well
 				legend Sign up
 				div.control-group
 					input(type='text', id='username', name='username', placeholder="Username")
@@ -30,7 +30,7 @@ div.container
 					input(type='text', id='r_username', name='r_username', placeholder="Rackspace Username")
 					input(type='text', id='r_api_key', name='r_api_key', placeholder="Rackspace API Key")
 					br
-					button(type="submit", id='submit').btn.btn-primary.login-button Submit
+					button(type="submit", id='signup_submit').btn.btn-primary.login-button Submit
 		div.span4
 			&nbsp;	
 					
@@ -40,7 +40,7 @@ div(id="forgot_modal").modal.fade
 		h3 
 			Modal header
 	div.modal-body
-		form(id='signup-form')
+		form(id='reset_form')
 			div.control-group
 				input(type='text', id='email', name='email', placeholder="Email")
 	div.modal-footer
@@ -61,7 +61,7 @@ script
 		$('#forgot_modal').modal('hide');
 	});
 	$('#reset_submit').on('click', function(e){
-		$.post('/passwd_reset', $('#signup-form').serialize(), function(data) {
+		$.post('/passwd_reset', $('#reset_form').serialize(), function(data, textStatus, jqXHR) {
 			if(data == true){
 				$('#forgot_modal').modal('hide');
 			}
@@ -75,6 +75,25 @@ script
 			$('#forgot_modal .control-group').addClass('error');
 		});
 	});
+	$('#signup_submit').on('click', function(e){
+		e.preventDefault();
+		$('#signup_form .control-group').removeClass('error');
+		$('#signup_form span').remove();
+		
+		$.post('/create_acct', $('#signup_form').serialize(), function(data, textStatus, jqXHR) {
+			if(data == 'success'){
+				$('#signup_form .control-group').append('<br><span class="success">Success. Please sign in above.</span>');
+			}
+			else{
+				$('#signup_form .control-group').after("<span class='help-inline'>Processing error.</span>");
+				$('#signup_form .control-group').addClass('error');
+			}
+		});
+	});
+		
+		
+	
+	
 	
 
 include includes/footer
