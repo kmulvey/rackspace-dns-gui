@@ -105,10 +105,10 @@ app.get('/details', checkSessionDns, function(req, res){
 
 app.get('/details/:domainId', checkSessionDns, routes.details);
 
-app.get('/dig', function(req, res){
+app.get('/dig', checkSessionDns, function(req, res){
 	res.render('dig');
 });
-app.post('/dig', function(req, res){
+app.post('/dig', checkSessionDns, function(req, res){
 	dig = spawn('dig', [ req.body.type, '+trace', req.body.host ]);
 	dig.stdout.on('data', function(data) {
 		res.render('tools-result', {result: data});
@@ -118,10 +118,10 @@ app.post('/dig', function(req, res){
 	});
 });
 
-app.get('/whois', function(req, res){
+app.get('/whois', checkSessionDns, function(req, res){
 	res.render('whois');
 });
-app.post('/whois', function(req, res){
+app.post('/whois', checkSessionDns, function(req, res){
 	dig = spawn('whois', [ req.body.host ]);
 	dig.stdout.on('data', function(data) {
 		res.render('tools-result', {result: data});
@@ -131,10 +131,10 @@ app.post('/whois', function(req, res){
 	});
 });
 
-app.get('/traceroute', function(req, res){
+app.get('/traceroute', checkSessionDns, function(req, res){
 	res.render('traceroute');
 });
-app.post('/traceroute', function(req, res){
+app.post('/traceroute', checkSessionDns, function(req, res){
 	var output = "";
 	if(req.body.v6 == 'on'){
 		dig = spawn(trace_cmd_6, [ req.body.host ]);
@@ -156,10 +156,10 @@ app.post('/traceroute', function(req, res){
 	});
 });
 
-app.get('/nslookup', function(req, res){
+app.get('/nslookup', checkSessionDns, function(req, res){
 	res.render('nslookup');
 });
-app.post('/nslookup', function(req, res){
+app.post('/nslookup', checkSessionDns, function(req, res){
 	dig = spawn('nslookup', [ req.body.host ]);
 	dig.stdout.on('data', function(data) {
 		res.render('tools-result', {result: data});
@@ -169,10 +169,10 @@ app.post('/nslookup', function(req, res){
 	});
 });
 
-app.get('/ping', function(req, res){
+app.get('/ping', checkSessionDns, function(req, res){
 	res.render('ping');
 });
-app.post('/ping', function(req, res){
+app.post('/ping', checkSessionDns, function(req, res){
 	var output = "";
 	if(req.body.v6 == 'on'){
 		dig = spawn('ping6', [ '-c 5', req.body.host ]);
