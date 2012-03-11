@@ -58,7 +58,7 @@ function checkSessionDns(req, res, next) {
     console.log("acct num " + req.session.dns_acct_num);
     next();
   } else {
-	  res.render('index');
+	  res.render('index', { errorMessage : 'Session Expired, Please Login' });
   }
 };
 
@@ -69,14 +69,14 @@ function authenticate(req, res, next) {
     if( data) {
       var dbres = JSON.parse(data);      
       if (dbres.results.length == 0) {
-        res.render('index'); 
+        res.render('index', { errorMessage : 'Invalid User Name' }); 
       } else {
         req.session.dns_name = dbres.results[0].name;
         req.session.dns_key = dbres.results[0].key;
         next();
       }
     } else {
-      res.render('index');
+      res.render('index', { errorMessage : 'Invalid User Name' });
     }
   });
 };
