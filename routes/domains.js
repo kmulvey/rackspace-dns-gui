@@ -3,7 +3,7 @@ var dns = require("../dns");
 /*
  * GET domains page.
  */
-var domains = module.exports = function(req, res){
+exports.get = function(req, res){
   var rsdns = new dns();
   rsdns.initialize(req.session.dns_name, req.session.dns_key, function(err, data) {
     if (err) throw err;

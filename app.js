@@ -16,6 +16,7 @@ var app = module.exports = express.createServer();
 var trace_cmd = "tracepath";
 var trace_cmd_6 = "tracepath6";
 var MemoryStore = require('connect').session.MemoryStore;
+var Record = require('./Record');
 
 // Configuration
 
@@ -31,7 +32,8 @@ app.configure(function(){
       };
     }
   });
-  app.use(express.bodyParser());
+  app.use(require('connect').bodyParser());
+  //app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'your secret here', store: new MemoryStore({ reapInterval: 60000 * 10 }) }));
@@ -89,21 +91,38 @@ function logout(req, res, next) {
   next();
 };
 
+function test(req, res, next) {
+  console.log('body ' + req.body);
+  next();
+};
+
 app.error(function(err, req, res, next){
   console.log(err); 
 });
 
 // Routes
 
-app.get('/', checkSessionDns, routes.domains);
+app.get('/', checkSessionDns, routes.domains.get);
 
-app.get('/domains', checkSessionDns, routes.domains);
+app.get('/domains', checkSessionDns, routes.domains.get);
 
 app.get('/details', checkSessionDns, function(req, res){
 	res.render('details');
 });
+app.post('/details', checkSessionDns, function(req, res, next){
+	console.log(req.body);
+	var recordArray = [];
+        for ( var i = 0; i < req.body.record_id.length; i++) {
+        	var record = new Record();
+        	record.initAll(req.body.record_name[i], req.body.record_id[i], req.body.record_type[i],
+			       req.body.record_val[i], req.body.record_updated[i], req.body.record_created[i]);
+        	recordArray.push(record);
+        }
+	req.records = recordArray;
+	next();
+}, routes.details.update);
 
-app.get('/details/:domainId', checkSessionDns, routes.details);
+app.get('/details/:domainId', checkSessionDns, routes.details.get);
 
 app.get('/dig', checkSessionDns, function(req, res){
 	res.render('dig');
@@ -233,7 +252,7 @@ app.post('/create_acct', function(req, res) {
 	});
 });
 
-app.post('/login', authenticate, routes.domains);
+app.post('/login', authenticate, routes.domains.get);
 
 app.get('/logout', logout, routes.index);
 

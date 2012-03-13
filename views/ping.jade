@@ -1,61 +1,66 @@
-include includes/head
-include includes/nav-bar
-
-div.container
-	div.row-fluid
-		div.span4
-			&nbsp;
-		div.span4
-			form(method='post', id='dig-form').well
-				legend Ping
-				div.control-group
-					input(type='text', id='host', name='host', placeholder="Host")
-					label.checkbox ipv6
-						input(type='checkbox', name='v6')
-					button(type="submit", id='submit').btn.btn-primary.login-button Submit
-					br
-					div.progress.progress-info.progress-striped.hidden
-						div(style='width: 50%;').bar
-		div.span4
-			&nbsp;
-div(id="result").container.result.hidden
-	div.row-fluid
-		div.span2
-			&nbsp;
-		div.span8
-			pre.results
-		div.span2
-			&nbsp;
-		
-script(src="/public/js/jquery.js")
-script
-	$('#submit').on('click', function(e){
-		$('.control-group').removeClass('error');
-		$('.control-group .help-inline').remove();
-		$('#result').addClass('hidden');
-		$('.progress').removeClass('hidden').addClass('active');
-		e.preventDefault();
-		var valid_hostname_regex = new RegExp("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$", "i");
-		var host = $('#host');
-		if(valid_hostname_regex.test(host.val()) != true){
-			host.after("<span class='help-inline'>Invalid Hostname</span>");
-			$('.control-group').addClass('error');
-			$('.progress').removeClass('active').addClass('hidden');
-			return false;
-		}
-		$.post('/ping', $('#dig-form').serialize(), function(data) {
-			$('pre.results').html(data);
-			$('#result').removeClass('hidden');
-			$('.progress').removeClass('active').addClass('hidden');
-		}).error(function() { 
-			host.after("<span class='help-inline'>Processing error.</span>");
-			$('.control-group').addClass('error');
-			$('.progress').removeClass('active').addClass('hidden');
-		});
-	});
-	$('#dig-form').submit(function() {
-		$('#submit').click();
-		return false;
-	});
-	
-include includes/footer
+include includes/doctype
+html(class="no-js", lang="en")
+	// <![endif]
+	head
+		title Rackspace DNS
+		include includes/head
+	body
+		include includes/nav-bar
+		div.container
+			div.row-fluid
+				div.span4
+					&nbsp;
+				div.span4
+					form(method='post', id='dig-form').well
+						legend Ping
+						div.control-group
+							input(type='text', id='host', name='host', placeholder="Host")
+							label.checkbox ipv6
+								input(type='checkbox', name='v6')
+							button(type="submit", id='submit').btn.btn-primary.login-button Submit
+							br
+							div.progress.progress-info.progress-striped.hidden
+								div(style='width: 50%;').bar
+				div.span4
+					&nbsp;
+		div(id="result").container.result.hidden
+			div.row-fluid
+				div.span2
+					&nbsp;
+				div.span8
+					pre.results
+				div.span2
+					&nbsp;
+				
+		script(src="/public/js/jquery.js")
+		script
+			$('#submit').on('click', function(e){
+				$('.control-group').removeClass('error');
+				$('.control-group .help-inline').remove();
+				$('#result').addClass('hidden');
+				$('.progress').removeClass('hidden').addClass('active');
+				e.preventDefault();
+				var valid_hostname_regex = new RegExp("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$", "i");
+				var host = $('#host');
+				if(valid_hostname_regex.test(host.val()) != true){
+					host.after("<span class='help-inline'>Invalid Hostname</span>");
+					$('.control-group').addClass('error');
+					$('.progress').removeClass('active').addClass('hidden');
+					return false;
+				}
+				$.post('/ping', $('#dig-form').serialize(), function(data) {
+					$('pre.results').html(data);
+					$('#result').removeClass('hidden');
+					$('.progress').removeClass('active').addClass('hidden');
+				}).error(function() { 
+					host.after("<span class='help-inline'>Processing error.</span>");
+					$('.control-group').addClass('error');
+					$('.progress').removeClass('active').addClass('hidden');
+				});
+			});
+			$('#dig-form').submit(function() {
+				$('#submit').click();
+				return false;
+			});
+			
+		include includes/footer
