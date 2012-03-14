@@ -19,8 +19,9 @@ var db = module.exports = function() {
 };
 
 // get key
-db.prototype.getKey = Step.fn(function(name) {
-	mydb.query().select([ "id", "name", "rs_key" ]).from("users").where("name = ?", [ name ]).execute(this);
+db.prototype.getKey = Step.fn(function(name, passwd) {
+	var hash = crypto.createHmac("sha512", config.passwd_salt).update(passwd).digest("hex");
+	mydb.query().select([ "id", "name", "rs_key" ]).from("users").where("name = ?", [ name ]).and("passwd = ?", [ hash ]).execute(this);
 }, function parseResult(error, rows, columns) {
 	if (error) {
 		console.log('ERROR: ' + error);

@@ -2,201 +2,213 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , dns = require('./dns')
-  , db = require('./db')
-  , util = require('util')
-  , less = require('less')
-  , spawn = require('child_process').spawn
-  , config = require('./config')
-  , email = require('mailer');
+var express = require('express'), routes = require('./routes'), dns = require('./dns'), db = require('./db'), util = require('util'), less = require('less'), spawn = require('child_process').spawn, config = require('./config'), email = require('mailer');
 
 var app = module.exports = express.createServer();
 var trace_cmd = "tracepath";
 var trace_cmd_6 = "tracepath6";
 var MemoryStore = require('connect').session.MemoryStore;
-var Record = require('./Record');
 
 // Configuration
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.set('view options', {layout: false});
-  app.use(express.compiler({ src: __dirname + '/public/less', enable: ['less']}));
-  app.register('.html', {
-    compile: function(str, options){
-      return function(locals){
-        return str;
-      };
-    }
-  });
-  app.use(require('connect').bodyParser());
-  //app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: 'your secret here', store: new MemoryStore({ reapInterval: 60000 * 10 }) }));
-  app.dynamicHelpers({ session: function(req, res) { return req.session; } });
-  app.use(app.router);
-  app.use('/public', express.static(__dirname + '/public'));
+app.configure(function() {
+	app.set('views', __dirname + '/views');
+	app.set('view engine', 'jade');
+	app.set('view options', {
+		layout : false
+	});
+	app.use(express.compiler({
+		src : __dirname + '/public/less',
+		enable : [ 'less' ]
+	}));
+	app.register('.html', {
+		compile : function(str, options) {
+			return function(locals) {
+				return str;
+			};
+		}
+	});
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.cookieParser());
+	app.use(express.session({
+		secret : 'your secret here',
+		store : new MemoryStore({
+			reapInterval : 60000 * 10
+		})
+	}));
+	app.dynamicHelpers({
+		session : function(req, res) {
+			return req.session;
+		}
+	});
+	app.use(app.router);
+	app.use('/public', express.static(__dirname + '/public'));
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+app.configure('development', function() {
+	app.use(express.errorHandler({
+		dumpExceptions : true,
+		showStack : true
+	}));
 });
 
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
+app.configure('production', function() {
+	app.use(express.errorHandler());
 });
 
 var rsdns = new dns();
 var rsdb = new db();
 
 function checkSessionDns(req, res, next) {
-  if (req.session.dns_name) {
-    console.log("session exists " + req.session.dns_name);
-    console.log("auth token " + req.session.dns_auth_token);
-    console.log("acct num " + req.session.dns_acct_num);
-    next();
-  } else {
-	  res.render('index', { errorMessage : 'Session Expired, Please Login' });
-  }
+	if (req.session.dns_name) {
+		console.log("session exists " + req.session.dns_name);
+		console.log("auth token " + req.session.dns_auth_token);
+		console.log("acct num " + req.session.dns_acct_num);
+		next();
+	} else {
+		res.render('index', {
+			errorMessage : 'Session Expired, Please Login'
+		});
+	}
 };
 
 function authenticate(req, res, next) {
-  console.log(req.body);
-  rsdb.getKey(req.body.username, function (err, data) {
-    if (err) throw err;
-    if( data) {
-      var dbres = JSON.parse(data);      
-      if (dbres.results.length == 0) {
-        res.render('index', { errorMessage : 'Invalid User Name' }); 
-      } else {
-        req.session.dns_name = dbres.results[0].name;
-        req.session.dns_key = dbres.results[0].key;
-        next();
-      }
-    } else {
-      res.render('index', { errorMessage : 'Invalid User Name' });
-    }
-  });
+	rsdb.getKey(req.body.username, req.body.password, function (err, data) {
+		if (err)
+			throw err;
+		if (data) {
+			var dbres = JSON.parse(data);
+			if (dbres.results.length == 0) {
+				res.send('Invalid User Name');
+			} else {
+				req.session.dns_name = dbres.results[0].name;
+				req.session.dns_key = dbres.results[0].key;
+				next();
+			}
+		} else {
+			res.send('Invalid User Name');
+		}
+	});
 };
 
 function logout(req, res, next) {
-  req.session.dns_name = null;
-  req.session.dns_auth_token = null;
-  req.session.dns_acct_num = null;
-  req.session.dns_key = null;
-  next();
+	req.session.dns_name = null;
+	req.session.dns_auth_token = null;
+	req.session.dns_acct_num = null;
+	req.session.dns_key = null;
+	next();
 };
 
-function test(req, res, next) {
-  console.log('body ' + req.body);
-  next();
-};
-
-app.error(function(err, req, res, next){
-  console.log(err); 
+app.error(function(err, req, res, next) {
+	console.log(err);
 });
 
 // Routes
 
-app.get('/', checkSessionDns, routes.domains.get);
+app.get('/', checkSessionDns, routes.domains);
 
-app.get('/domains', checkSessionDns, routes.domains.get);
+app.get('/domains', checkSessionDns, routes.domains);
 
-app.get('/details', checkSessionDns, function(req, res){
+app.get('/details', checkSessionDns, function(req, res) {
 	res.render('details');
 });
-app.post('/details', checkSessionDns, function(req, res, next){
+app.post('/details', checkSessionDns, function(req, res) {
+	// fill me in
 	console.log(req.body);
-	var recordArray = [];
-        for ( var i = 0; i < req.body.record_id.length; i++) {
-        	var record = new Record();
-        	record.initAll(req.body.record_name[i], req.body.record_id[i], req.body.record_type[i],
-			       req.body.record_val[i], req.body.record_updated[i], req.body.record_created[i]);
-        	recordArray.push(record);
-        }
-	req.records = recordArray;
-	next();
-}, routes.details.update);
+});
 
-app.get('/details/:domainId', checkSessionDns, routes.details.get);
+app.get('/details/:domainId', checkSessionDns, routes.details);
 
-app.get('/dig', checkSessionDns, function(req, res){
+app.get('/dig', checkSessionDns, function(req, res) {
 	res.render('dig');
 });
-app.post('/dig', checkSessionDns, function(req, res){
+app.post('/dig', checkSessionDns, function(req, res) {
 	dig = spawn('dig', [ req.body.type, '+trace', req.body.host ]);
 	dig.stdout.on('data', function(data) {
-		res.render('tools-result', {result: data});
+		res.render('tools-result', {
+			result : data
+		});
 	});
 	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {result: 'ERROR: ' + data});
+		res.render('tools-result', {
+			result : 'ERROR: ' + data
+		});
 	});
 });
 
-app.get('/whois', checkSessionDns, function(req, res){
+app.get('/whois', checkSessionDns, function(req, res) {
 	res.render('whois');
 });
-app.post('/whois', checkSessionDns, function(req, res){
+app.post('/whois', checkSessionDns, function(req, res) {
 	dig = spawn('whois', [ req.body.host ]);
 	dig.stdout.on('data', function(data) {
-		res.render('tools-result', {result: data});
+		res.render('tools-result', {
+			result : data
+		});
 	});
 	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {result: 'ERROR: ' + data});
+		res.render('tools-result', {
+			result : 'ERROR: ' + data
+		});
 	});
 });
 
-app.get('/traceroute', checkSessionDns, function(req, res){
+app.get('/traceroute', checkSessionDns, function(req, res) {
 	res.render('traceroute');
 });
-app.post('/traceroute', checkSessionDns, function(req, res){
+app.post('/traceroute', checkSessionDns, function(req, res) {
 	var output = "";
-	if(req.body.v6 == 'on'){
+	if (req.body.v6 == 'on') {
 		dig = spawn(trace_cmd_6, [ req.body.host ]);
-	}
-	else{
+	} else {
 		dig = spawn(trace_cmd, [ req.body.host ]);
 	}
 	dig.stdout.on('data', function(data) {
 		output += data;
 	});
 	dig.stderr.on('end', function(data) {
-		res.render('tools-result', {result: output});
+		res.render('tools-result', {
+			result : output
+		});
 	});
 	dig.stderr.on('close', function(data) {
-		res.render('tools-result', {result: output});
+		res.render('tools-result', {
+			result : output
+		});
 	});
 	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {result: 'ERROR: ' + data});
+		res.render('tools-result', {
+			result : 'ERROR: ' + data
+		});
 	});
 });
 
-app.get('/nslookup', checkSessionDns, function(req, res){
+app.get('/nslookup', checkSessionDns, function(req, res) {
 	res.render('nslookup');
 });
-app.post('/nslookup', checkSessionDns, function(req, res){
+app.post('/nslookup', checkSessionDns, function(req, res) {
 	dig = spawn('nslookup', [ req.body.host ]);
 	dig.stdout.on('data', function(data) {
-		res.render('tools-result', {result: data});
+		res.render('tools-result', {
+			result : data
+		});
 	});
 	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {result: 'ERROR: ' + data});
+		res.render('tools-result', {
+			result : 'ERROR: ' + data
+		});
 	});
 });
 
-app.get('/ping', checkSessionDns, function(req, res){
+app.get('/ping', checkSessionDns, function(req, res) {
 	res.render('ping');
 });
-app.post('/ping', checkSessionDns, function(req, res){
+app.post('/ping', checkSessionDns, function(req, res) {
 	var output = "";
-	if(req.body.v6 == 'on'){
+	if (req.body.v6 == 'on') {
 		dig = spawn('ping6', [ '-c 5', req.body.host ]);
-	}
-	else{
+	} else {
 		dig = spawn('ping', [ '-c 5', req.body.host ]);
 	}
 	dig.stdout.on('data', function(data) {
@@ -221,9 +233,9 @@ app.post('/ping', checkSessionDns, function(req, res){
 
 app.post('/passwd_reset', function(req, res) {
 	email.send({
-		host : config.smtp_host, 
-		port : config.smtp_port, 
-		domain : config.smtp_domain, 
+		host : config.smtp_host,
+		port : config.smtp_port,
+		domain : config.smtp_domain,
 		to : "king.feruke@gmail.com",
 		from : config.mail_from,
 		subject : "DNS Password reset",
@@ -235,8 +247,7 @@ app.post('/passwd_reset', function(req, res) {
 	}, function(err, result) {
 		if (err) {
 			res.send(err);
-		}
-		else{
+		} else {
 			res.send(result);
 		}
 	});
@@ -252,7 +263,7 @@ app.post('/create_acct', function(req, res) {
 	});
 });
 
-app.post('/login', authenticate, routes.domains.get);
+app.post('/login', authenticate, routes.domains);
 
 app.get('/logout', logout, routes.index);
 
