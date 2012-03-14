@@ -27,4 +27,5 @@
 - find better hostname regex						
 - make a config file								
 - if login success render /domains					
-- passwords 
+- passwords
+- check if user id already exists / put user name as primary key
