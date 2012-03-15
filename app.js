@@ -2,11 +2,9 @@
  * Module dependencies.
  */
 
-var express = require('express'), routes = require('./routes'), dns = require('./dns'), db = require('./db'), util = require('util'), less = require('less'), spawn = require('child_process').spawn, config = require('./config'), email = require('mailer');
+var express = require('express'), less = require('less'), config = require('./config');
 
 var app = module.exports = express.createServer();
-var trace_cmd = "tracepath";
-var trace_cmd_6 = "tracepath6";
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration
@@ -57,215 +55,12 @@ app.configure('production', function() {
 	app.use(express.errorHandler());
 });
 
-var rsdns = new dns();
-var rsdb = new db();
-
-function checkSessionDns(req, res, next) {
-	if (req.session.dns_name) {
-		console.log("session exists " + req.session.dns_name);
-		console.log("auth token " + req.session.dns_auth_token);
-		console.log("acct num " + req.session.dns_acct_num);
-		next();
-	} else {
-		res.render('index', {
-			errorMessage : 'Session Expired, Please Login'
-		});
-	}
-};
-
-function authenticate(req, res, next) {
-	rsdb.getKey(req.body.username, req.body.password, function (err, data) {
-		if (err)
-			throw err;
-		if (data) {
-			var dbres = JSON.parse(data);
-			if (dbres.results.length == 0) {
-				res.send('Invalid User Name');
-			} else {
-				req.session.dns_name = dbres.results[0].name;
-				req.session.dns_key = dbres.results[0].key;
-				next();
-			}
-		} else {
-			res.send('Invalid User Name');
-		}
-	});
-};
-
-function logout(req, res, next) {
-	req.session.dns_name = null;
-	req.session.dns_auth_token = null;
-	req.session.dns_acct_num = null;
-	req.session.dns_key = null;
-	next();
-};
-
 app.error(function(err, req, res, next) {
 	console.log(err);
 });
 
 // Routes
-
-app.get('/', checkSessionDns, routes.domains);
-
-app.get('/domains', checkSessionDns, routes.domains);
-
-app.get('/details', checkSessionDns, function(req, res) {
-	res.render('details');
-});
-app.post('/details', checkSessionDns, function(req, res) {
-	// fill me in
-	console.log(req.body);
-});
-
-app.get('/details/:domainId', checkSessionDns, routes.details);
-
-app.get('/dig', checkSessionDns, function(req, res) {
-	res.render('dig');
-});
-app.post('/dig', checkSessionDns, function(req, res) {
-	dig = spawn('dig', [ req.body.type, '+trace', req.body.host ]);
-	dig.stdout.on('data', function(data) {
-		res.render('tools-result', {
-			result : data
-		});
-	});
-	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {
-			result : 'ERROR: ' + data
-		});
-	});
-});
-
-app.get('/whois', checkSessionDns, function(req, res) {
-	res.render('whois');
-});
-app.post('/whois', checkSessionDns, function(req, res) {
-	dig = spawn('whois', [ req.body.host ]);
-	dig.stdout.on('data', function(data) {
-		res.render('tools-result', {
-			result : data
-		});
-	});
-	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {
-			result : 'ERROR: ' + data
-		});
-	});
-});
-
-app.get('/traceroute', checkSessionDns, function(req, res) {
-	res.render('traceroute');
-});
-app.post('/traceroute', checkSessionDns, function(req, res) {
-	var output = "";
-	if (req.body.v6 == 'on') {
-		dig = spawn(trace_cmd_6, [ req.body.host ]);
-	} else {
-		dig = spawn(trace_cmd, [ req.body.host ]);
-	}
-	dig.stdout.on('data', function(data) {
-		output += data;
-	});
-	dig.stderr.on('end', function(data) {
-		res.render('tools-result', {
-			result : output
-		});
-	});
-	dig.stderr.on('close', function(data) {
-		res.render('tools-result', {
-			result : output
-		});
-	});
-	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {
-			result : 'ERROR: ' + data
-		});
-	});
-});
-
-app.get('/nslookup', checkSessionDns, function(req, res) {
-	res.render('nslookup');
-});
-app.post('/nslookup', checkSessionDns, function(req, res) {
-	dig = spawn('nslookup', [ req.body.host ]);
-	dig.stdout.on('data', function(data) {
-		res.render('tools-result', {
-			result : data
-		});
-	});
-	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {
-			result : 'ERROR: ' + data
-		});
-	});
-});
-
-app.get('/ping', checkSessionDns, function(req, res) {
-	res.render('ping');
-});
-app.post('/ping', checkSessionDns, function(req, res) {
-	var output = "";
-	if (req.body.v6 == 'on') {
-		dig = spawn('ping6', [ '-c 5', req.body.host ]);
-	} else {
-		dig = spawn('ping', [ '-c 5', req.body.host ]);
-	}
-	dig.stdout.on('data', function(data) {
-		output += data;
-	});
-	dig.stderr.on('end', function(data) {
-		res.render('tools-result', {
-			result : output
-		});
-	});
-	dig.stderr.on('close', function(data) {
-		res.render('tools-result', {
-			result : output
-		});
-	});
-	dig.stderr.on('error', function(data) {
-		res.render('tools-result', {
-			result : 'ERROR: ' + data
-		});
-	});
-});
-
-app.post('/passwd_reset', function(req, res) {
-	email.send({
-		host : config.smtp_host,
-		port : config.smtp_port,
-		domain : config.smtp_domain,
-		to : "king.feruke@gmail.com",
-		from : config.mail_from,
-		subject : "DNS Password reset",
-		template : "reset_email.txt",
-		data : {
-			"name" : "Kevin",
-			"url" : "http://theorywednesday.com"
-		},
-	}, function(err, result) {
-		if (err) {
-			res.send(err);
-		} else {
-			res.send(result);
-		}
-	});
-});
-
-app.post('/create_acct', function(req, res) {
-	rsdb.addUser(req.body.username, req.body.r_api_key, req.body.password, req.body.email, req.body.r_username, function(err, data) {
-		if (err)
-			throw err;
-		if (data) {
-			res.send(data);
-		}
-	});
-});
-
-app.post('/login', authenticate, routes.domains);
-
-app.get('/logout', logout, routes.index);
+require('./routes')(app);
 
 app.listen(config.node_port);
 

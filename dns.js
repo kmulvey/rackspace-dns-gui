@@ -19,6 +19,7 @@ dns.prototype.initialize = Step.fn (
 	},
 	function parseToken(res) {
 		var data = JSON.parse(res);
+		if (data.unauthorized) return '{ "message" : "Username or api key is invalid" }';
 		dns.auth_token = data.auth.token.id;
 		var url = data.auth.serviceCatalog.cloudServers[0].publicURL;
 		var cut = url.split('/');
@@ -275,6 +276,7 @@ function make_request(path, method, body, callback) {
 			if (200 <= res.statusCode < 300) {
 				res.setEncoding('utf8');
 				res.on('data', function(d) {
+					console.log('data ' + d);
 					callback(d);
 				});
 			}
