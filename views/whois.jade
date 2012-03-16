@@ -11,7 +11,7 @@ html(class="no-js", lang="en")
 				div.span4
 					&nbsp;
 				div.span4
-					form(method='post', id='dig-form').well
+					form(id='whois-form').well
 						legend Whois
 						div.control-group
 							input(type='text', id='host', name='host', placeholder="Host")
@@ -32,34 +32,8 @@ html(class="no-js", lang="en")
 					&nbsp;
 				
 		script(src="/public/js/jquery.js")
-		script
-			$('#submit').on('click', function(e){
-				$('.control-group').removeClass('error');
-				$('.control-group .help-inline').remove();
-				$('#result').addClass('hidden');
-				$('.progress').removeClass('hidden').addClass('active');
-				e.preventDefault();
-				var valid_hostname_regex = new RegExp("^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$", "i");
-				var host = $('#host');
-				if(valid_hostname_regex.test(host.val()) != true){
-					host.after("<span class='help-inline'>Invalid Hostname</span>");
-					$('.control-group').addClass('error');
-					$('.progress').removeClass('active').addClass('hidden');
-					return false;
-				}
-				$.post('/whois', $('#dig-form').serialize(), function(data) {
-					$('pre.results').html(data);
-					$('#result').removeClass('hidden');
-					$('.progress').removeClass('active').addClass('hidden');
-				}).error(function() { 
-					host.after("<span class='help-inline'>Processing error.</span>");
-					$('.control-group').addClass('error');
-					$('.progress').removeClass('active').addClass('hidden');
-				});
-			});
-			$('#dig-form').submit(function() {
-				$('#submit').click();
-				return false;
-			});
+		script(src="/public/js/dns/submit_form.js")
+		script(type='text/javascript')
+			submit_form('whois');
 			
 		include includes/footer

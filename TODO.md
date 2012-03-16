@@ -1,31 +1,20 @@
 ### TODO
 
-- move all the routing out of app.js
 - convert css to LESS and compile on server  
-- validation of user login							
-	- display error on client						
 - fix alignment of login box						
 - send form changes back to server					
 	- process changes								
 - handle multieple API keys/acct					
 	- toggle on client								
-- some kind of settings page						
 - testing  http://vowsjs.org/
 - make sure all pages are responsive				
-- route all requests through auth					
-	- if no session, require login
 - HTTPS (maybe)										
 - forgot password									
 	- needs page									
-- remove test/old/unecessary files					
 - settings page										
 	- process updates from form						
-- logout											
 - form validation
 	- client										
 	- server									
-- find better hostname regex						
-- make a config file								
-- if login success render /domains					
-- passwords
 - check if user id already exists / put user name as primary key
+- render the actual uri on login not just /domains e.g. try hitting /dig before login
