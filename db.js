@@ -21,7 +21,7 @@ var db = module.exports = function() {
 // get key
 db.prototype.getKey = Step.fn(function(name, passwd) {
 	var hash = crypto.createHmac("sha512", config.passwd_salt).update(passwd).digest("hex");
-	mydb.query().select([ "id", "name", "rs_key" ]).from("users").where("name = ?", [ name ]).and("passwd = ?", [ hash ]).execute(this);
+	mydb.query().select([ "id", "rs_username", "rs_key" ]).from("users").where("name = ?", [ name ]).and("passwd = ?", [ hash ]).execute(this);
 }, function parseResult(error, rows, columns) {
 	if (error) {
 		console.log('ERROR: ' + error);
@@ -30,7 +30,7 @@ db.prototype.getKey = Step.fn(function(name, passwd) {
 	returnStr = '{ "results" : [ {';
 	for ( var i = 0; i < rows.length; i++) {
 		var result = rows[0];
-		returnStr += '"name" : "' + result.name + '", "key" : "' + result.rs_key + '" }, ';
+		returnStr += '"name" : "' + result.rs_username + '", "key" : "' + result.rs_key + '" }, ';
 	}
 	returnStr = returnStr.substring(0, returnStr.length - 2);
 	returnStr += ' ] }';

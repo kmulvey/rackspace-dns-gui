@@ -32,11 +32,11 @@ html(class="no-js", lang="en")
 									td
 										input(type="text", id="record_name", name="record_name", value=record.name).input-hidden
 									td
-										input(type="text", id="record_id", name="record_id", value=record.id, readonly="readonly")
+										input(type="text", id="record_id", name="record_id", value=record.id, readonly="readonly").span2
 									td
 										div.control-group
 											div.controls
-												select(id="record_type", name="record_type").span2
+												select(id="record_type", name="record_type").span1
 													option(selected=('A'==record.type?'selected':null)) A
 													option(selected=('AAAA'==record.type?'selected':null)) AAAA
 													option(selected=('CNAME'==record.type?'selected':null)) CNAME
@@ -58,12 +58,11 @@ html(class="no-js", lang="en")
 					button(type="submit", id="submit").btn.btn-large.btn-primary Save changes
 					button(type="reset", id="reset").btn.btn-large Cancel
 				
-		script(src="/public/js/jquery.js")
+		script(src="/public/js/jquery-1.7.2.min.js")
 		script
 			$("document").ready(function() {
 				$("#add").on('click', function(e) {
-					var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";
-					$("#record-table tbody").append(html);
+					$('#record-table tbody tr:last').clone().appendTo("#record-table tbody");
 				});
 				$("#delete").on('click', function(e) {
 					var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";

@@ -2,9 +2,12 @@
  * Module dependencies.
  */
 
-var express = require('express'), less = require('less'), config = require('./config');
+var express = require('express'), less = require('less'), config = require('./config'), fs = require('fs');
 
-var app = module.exports = express.createServer();
+var app = module.exports = express.createServer({
+	key: fs.readFileSync('/var/node/server.key'),
+	cert: fs.readFileSync('/var/node/server.crt')
+});
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration

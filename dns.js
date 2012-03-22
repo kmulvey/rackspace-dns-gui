@@ -227,11 +227,25 @@ dns.prototype.addRecords = function(domainId, records, callback) {
 // Modify the configuration of a record or records in the domain
 dns.prototype.modifyRecords = function(domainId, records, callback) {
 	var uri = '';
-	if (records.length == 1)
+	var body = '';
+	if (records.length == 1) {
 		uri = '/' + records[0].id;
-	make_request('domains/' + domainId + '/records' + uri, 'PUT', records.toJSON(), function(res) {
-		callback(res);
-	});
+		body = records[0].addRequest();
+	} else {
+		body = '{ "records" : [ ';
+		for ( var i = 0; i < records.length; i++) {
+			body = body + records[i].modifyRequest();
+			if ((i+1) == records.length) 
+				body = body + ' ] }';
+			 else 
+				body = body + ', ';
+		}
+	}
+	console.log(body);
+	callback('hi');
+	//make_request('domains/' + domainId + '/records' + uri, 'PUT', body, function(res) {
+	//	callback(res);
+	//});
 };
 
 // Remove a record or multiple records from the domain

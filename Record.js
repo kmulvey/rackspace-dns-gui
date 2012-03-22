@@ -28,3 +28,15 @@ Record.prototype.toJSON = function() {
 	output = output + '"updated" : "' + this.updated + '", "created" : "' + this.created + '" }';
 	return output;
 }
+
+Record.prototype.addRequest = function() {
+        var output = '{ "name" : "' + this.name + '", "data" : "' + this.data + '", "ttl" : "' + this.ttl + '" }';
+        return output;
+}
+
+Record.prototype.modifyRequest = function() {
+        var output = '{ "name" : "' + this.name + '", "id" : "' + this.id + '", ';
+        output = output + '"data" : "' + this.data + '", "ttl" : "' + this.ttl + '" }';
+        return output;
+}
+
