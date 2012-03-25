@@ -17,4 +17,4 @@
 	- client										
 	- server									
 - check if user id already exists / put user name as primary key
-- render the actual uri on login not just /domains e.g. try hitting /dig before login
+- make login error messages look nicer 

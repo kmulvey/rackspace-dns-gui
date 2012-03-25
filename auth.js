@@ -11,9 +11,8 @@ auth.prototype.checkSessionDns = function(req, res, next) {
                 console.log("acct num " + req.session.dns_acct_num);
                 next();
         } else {
-                res.render('index', {
-                        errorMessage : 'Session Expired, Please Login'
-                });
+		req.flash('error', 'Session Expired: Please login again.');
+                res.redirect('/login');
         }
 };
 
@@ -24,18 +23,16 @@ auth.prototype.authenticate = function(req, res, next) {
                 if (data) {
                         var dbres = JSON.parse(data);
                         if (dbres.results.length == 0) {
-                                res.render('index', {
-					errorMessage : 'Invalid User Name'
-				});
+				req.flash('error', 'Incorrect Credentials: Please login again.');
+                                res.redirect('/login');
                         } else {
                                 req.session.dns_name = dbres.results[0].name;
                                 req.session.dns_key = dbres.results[0].key;
                                 next();
                         }
                 } else {
-                        res.render('index', {
-				errorMessage : 'Invalid User Name'
-			});
+			req.flash('error', 'Incorrect Credentials: Please login again.');
+                        res.redirect('/login');
                 }
         });
 };

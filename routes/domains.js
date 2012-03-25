@@ -11,7 +11,13 @@ module.exports = function(app) {
 
   app.get('/domains', dnsauth.checkSessionDns, load);
 
-  app.post('/login', dnsauth.authenticate, load);
+  app.get('/login', function(req, res) {
+    res.render('index');
+  });
+
+  app.post('/login', dnsauth.authenticate, function(req, res) {
+    res.redirect('/domains');
+  });
 
   function load(req, res){
     var rsdns = new dns();

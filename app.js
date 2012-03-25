@@ -41,7 +41,17 @@ app.configure(function() {
 	app.dynamicHelpers({
 		session : function(req, res) {
 			return req.session;
-		}
+		},
+		flashMessages: function(req, res) {
+    			var html = '';
+			['error', 'info'].forEach(function(type) {
+      				var messages = req.flash(type);
+      				if (messages.length > 0) {
+        				html = messages;
+      				}
+    			});
+    			return html; 
+  		}
 	});
 	app.use(app.router);
 	app.use('/public', express.static(__dirname + '/public'));

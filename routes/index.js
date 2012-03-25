@@ -11,7 +11,10 @@ module.exports = function(app){
       require('./' + name)(app);
   });
 
-  app.get('/logout', dnsauth.logout, load);
+  app.get('/logout', dnsauth.logout, function(req, res) {
+    req.flash('info', 'You have successfully logged out.');
+    res.redirect('/login');
+  });
 
   app.post('/create_acct', function(req, res) {
     rsdb.addUser(req.body.username, req.body.r_api_key, req.body.password, req.body.email, req.body.r_username, function(err, data) {
@@ -44,8 +47,4 @@ module.exports = function(app){
       }
     });
   });
-
-  function load(req, res) {
-    res.render('index');
-  };
 }
