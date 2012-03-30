@@ -69,6 +69,10 @@ html(class="no-js", lang="en")
 				$('#forgot_modal').modal('hide');
 			});
 			$('#reset_submit').on('click', function(e){
+				e.preventDefault();
+				$('#reset_form .control-group').removeClass('error');
+				$('#reset_form .control-group span').remove();
+				
 				$.post('/passwd_reset', $('#reset_form').serialize(), function(data, textStatus, jqXHR) {
 					if(data == true){
 						$('#forgot_modal').modal('hide');

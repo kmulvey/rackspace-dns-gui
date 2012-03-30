@@ -1,4 +1,4 @@
-var fs = require('fs'), auth = require('../auth'), db = require('../db'), config = require('../config'), email = require('mailer');
+var fs = require('fs'), auth = require('../auth'), db = require('../db'), config = require('../config'), nodemailer = require('nodemailer');
 
 module.exports = function(app) {
 
@@ -31,28 +31,32 @@ module.exports = function(app) {
 		rsdb.validateEmail(req.body.email, function(err, data) {
 			if (err)
 				throw err;
-			if (!data) {
+			else if (!data) {
 				res.send('Not a valid email.');
-			} else
-				email.send({
+			} else {
+				var transport = nodemailer.createTransport("SMTP", {
 					host : config.smtp_host,
 					port : config.smtp_port,
-					domain : config.smtp_domain,
-					to : req.body.email, // to : "king.feruke@gmail.com",
-					from : config.mail_from,
-					subject : "DNS Password reset",
-					template : "reset_email.txt",
-					data : {
-						"name" : "Kevin",
-						"url" : "http://theorywednesday.com"
-					},
-				}, function(err, result) {
-					if (err) {
-						res.send(err);
-					} else {
-						res.send(result);
-					}
+					debug : 'true'
 				});
+
+				var message = {
+					from : config.email_from,
+					to : req.body.email,
+					subject : "DNS Password reset",
+					text : 'Follow the below link to reset your password.'
+				};
+
+				transport.sendMail(message, function(error) {
+					if (error) {
+						console.log('Error occured');
+						console.log(error.message);
+						return;
+					}
+					console.log('Message sent successfully!');
+					transport.close();
+				});
+			}
 		});
 
 	});
