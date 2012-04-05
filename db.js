@@ -51,14 +51,27 @@ db.prototype.addUser = Step.fn(function(username, key, pass, email, rs_username)
 
 // validate email
 db.prototype.validateEmail = Step.fn(function(email) {
-	mydb.query().select([ "name" ]).from("users").where("email = ?", [ email ]).execute(this);
+	mydb.query().select([ "id", "name" ]).from("users").where("email = ?", [ email ]).execute(this);
 }, function parseResult(error, rows, result) {
 	if (error) {
-		console.log('DB ERROR: ' + error);
+		console.log('validateEmail DB ERROR: ' + error);
 		return error;
 	}
 	else if (rows.length > 0) {
-		return rows[0].name;
+		return rows[0].id;
 	}
 	else return false;
+});
+
+
+// generate unique URI for password reset
+db.prototype.genResetURI = Step.fn(function(id) {
+	var hash = crypto.createHmac("sha1", config.passwd_salt).update(id + new Date().getTime()).digest("hex");
+	mydb.query().insert('user_password_reset', [ 'user_id', 'date_requested', 'token'], [ id,new Date(), hash]).execute(this);
+}, function parseResult(error, result) {
+	if (error) {
+		console.log('genResetURI DB ERROR: ' + error);
+		return error;
+	}
+	return 'success';
 });

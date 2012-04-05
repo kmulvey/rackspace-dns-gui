@@ -34,6 +34,15 @@ module.exports = function(app) {
 			else if (!data) {
 				res.send('Not a valid email.');
 			} else {
+				// generate uri and store it
+				rsdb.genResetURI(data, function(err, data) {
+					if (err)
+						throw err;
+					else if (!data) {
+						res.send('Not a valid email.');
+					} else {}
+				});
+				
 				var transport = nodemailer.createTransport("SMTP", {
 					host : config.smtp_host,
 					port : config.smtp_port,
