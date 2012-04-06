@@ -64,6 +64,7 @@ module.exports = function(app) {
 					}
 					console.log('Message sent successfully!');
 					transport.close();
+					res.send('Reset link sent.');
 				});
 			}
 		});

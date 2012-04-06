@@ -74,11 +74,12 @@ html(class="no-js", lang="en")
 				$('#reset_form .control-group span').remove();
 				
 				$.post('/passwd_reset', $('#reset_form').serialize(), function(data, textStatus, jqXHR) {
-					if(data == true){
+					if(data == 'Reset link sent.'){
+						alert(data);
 						$('#forgot_modal').modal('hide');
 					}
 					else{
-						$('#forgot_modal #email').after("<span class='help-inline'>Processing error.</span>");
+						$('#forgot_modal #email').after("<span class='help-inline'>Processing error. " + data + "</span>");
 						$('#forgot_modal .control-group').addClass('error');
 					}
 					
