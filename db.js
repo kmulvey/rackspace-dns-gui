@@ -66,7 +66,8 @@ db.prototype.validateEmail = Step.fn(function(email) {
 
 // generate unique URI for password reset
 db.prototype.genResetURI = Step.fn(function(id) {
-	var hash = crypto.createHmac("sha1", config.passwd_salt).update(id + new Date().getTime()).digest("hex");
+	var pass = '' + id + new Date().getTime();
+	var hash = crypto.createHmac("sha1", config.passwd_salt).update(pass).digest("hex");
 	mydb.query().insert('user_password_reset', [ 'user_id', 'date_requested', 'token'], [ id,new Date(), hash]).execute(this);
 }, function parseResult(error, result) {
 	if (error) {
