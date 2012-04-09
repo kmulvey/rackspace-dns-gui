@@ -1,5 +1,0 @@
-Hello {{name}}, 
-
-Follow the below link to reset your password. \n
-
-{{url}}
