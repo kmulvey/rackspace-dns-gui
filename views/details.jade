@@ -30,13 +30,13 @@ html(class="no-js", lang="en")
 									td
 										input(type="checkbox", name="del")
 									td
-										input(type="text", id="record_name", name="record_name", value=record.name).input-hidden
+										input(type="text", name="record_name", value=record.name).input-hidden
 									td
-										input(type="text", id="record_id", name="record_id", value=record.id, readonly="readonly").span2
+										input(type="text", name="record_id", value=record.id, readonly="readonly").span2
 									td
 										div.control-group
 											div.controls
-												select(id="record_type", name="record_type").span1
+												select(name="record_type").span2
 													option(selected=('A'==record.type?'selected':null)) A
 													option(selected=('AAAA'==record.type?'selected':null)) AAAA
 													option(selected=('CNAME'==record.type?'selected':null)) CNAME
@@ -45,13 +45,15 @@ html(class="no-js", lang="en")
 													option(selected=('TXT'==record.type?'selected':null)) TXT
 													option(selected=('SVR'==record.type?'selected':null)) SVR
 									td
-										input(type="text", id="record_val", name="record_val", value=record.data).input-hidden
+										input(type="text", name="record_val", value=record.data).input-hidden
 									td
-										input(type="text", id="record_ttl", name="record_ttl", value=record.ttl).input-hidden.span1
+										input(type="text", name="record_ttl", value=record.ttl).input-hidden.span1
 									td
-										input(type="text", id="record_updated", name="record_updated", value=record.updated, readonly="readonly")
+										input(type="text", name="record_updated", value=record.updated, readonly="readonly")
 									td
-										input(type="text", id="record_created", name="record_created", value=record.created, readonly="readonly")
+										input(type="text", name="record_created", value=record.created, readonly="readonly")
+									td
+										input(type="hidden", name="status")
 									
 					br
 					br
@@ -63,6 +65,8 @@ html(class="no-js", lang="en")
 			$("document").ready(function() {
 				$("#add").on('click', function(e) {
 					$('#record-table tbody tr:last').clone().appendTo("#record-table tbody");
+					$('#record-table tbody tr:last input').val('');
+					$('#record-table tbody tr:last input[name=status]').val('A');
 				});
 				$("#delete").on('click', function(e) {
 					var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";
