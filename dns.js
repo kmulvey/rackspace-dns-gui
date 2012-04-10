@@ -11,36 +11,22 @@ var dns = module.exports = function dns() {
 };
 
 // don't really need to use step now, should remove later.
-dns.prototype.initialize = Step.fn (
-	function getToken(name, key) {
-		dns.user_name = name;
-		dns.key = key;
-		make_request(null, 'POST', null, this);
-	},
-	function parseToken(res) {
-		var data = JSON.parse(res);
-		if (data.unauthorized) return '{ "message" : "Username or api key is invalid" }';
-		dns.auth_token = data.auth.token.id;
-		var url = data.auth.serviceCatalog.cloudServers[0].publicURL;
-		var cut = url.split('/');
-		dns.acct_num = cut[cut.length - 1];
-		return '{ "auth_token" : "' + dns.auth_token + '",  "acct_num" : "' +  dns.acct_num + '" }';
-	} /*,
-	function getDomains(err, acctNum) {
-		if (err) throw err;
-                make_request('domains', 'GET', null, this);
-	},
-	function returnBack(res) {
-		var data = JSON.parse(res);
-                var domains = data.domains;
-                var domainArray = [];
-                for ( var i = 0; i < domains.length; i++) {
-                        var domain = new Domain();
-                        domain.init(domains[i]);
-                        domainArray.push(domain);
-                }
-		return domainArray;
-	}*/
+dns.prototype.initialize = Step.fn(function getToken(name, key) {
+	dns.user_name = name;
+	dns.key = key;
+	make_request(null, 'POST', null, this);
+}, function parseToken(res) {
+	var data = JSON.parse(res);
+	if (data.unauthorized)
+		return '{ "message" : "Username or api key is invalid" }';
+	dns.auth_token = data.auth.token.id;
+	var url = data.auth.serviceCatalog.cloudServers[0].publicURL;
+	var cut = url.split('/');
+	dns.acct_num = cut[cut.length - 1];
+	return '{ "auth_token" : "' + dns.auth_token + '",  "acct_num" : "' + dns.acct_num + '" }';
+} /*
+	 * , function getDomains(err, acctNum) { if (err) throw err; make_request('domains', 'GET', null, this); }, function returnBack(res) { var data = JSON.parse(res); var domains = data.domains; var domainArray = []; for ( var i = 0; i < domains.length; i++) { var domain = new Domain(); domain.init(domains[i]); domainArray.push(domain); } return domainArray; }
+	 */
 );
 
 // --------------------------------------------------------------------------------------------------
@@ -235,16 +221,16 @@ dns.prototype.modifyRecords = function(domainId, records, callback) {
 		body = '{ "records" : [ ';
 		for ( var i = 0; i < records.length; i++) {
 			body = body + records[i].modifyRequest();
-			if ((i+1) == records.length) 
+			if ((i + 1) == records.length)
 				body = body + ' ] }';
-			 else 
+			else
 				body = body + ', ';
 		}
 	}
 	callback('hi');
-	//make_request('domains/' + domainId + '/records' + uri, 'PUT', body, function(res) {
-	//	callback(res);
-	//});
+	// make_request('domains/' + domainId + '/records' + uri, 'PUT', body, function(res) {
+	// callback(res);
+	// });
 };
 
 // Remove a record or multiple records from the domain

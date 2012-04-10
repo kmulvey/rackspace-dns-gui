@@ -5,11 +5,11 @@
 var express = require('express'), less = require('less'), config = require('./config'), fs = require('fs');
 
 var app = module.exports = express.createServer(
-//		{
-//	key: fs.readFileSync('/var/node/server.key'),
-//	cert: fs.readFileSync('/var/node/server.crt')
-//}
-		);
+// {
+// key: fs.readFileSync('/var/node/server.key'),
+// cert: fs.readFileSync('/var/node/server.crt')
+// }
+);
 var MemoryStore = require('connect').session.MemoryStore;
 
 // Configuration
@@ -44,16 +44,16 @@ app.configure(function() {
 		session : function(req, res) {
 			return req.session;
 		},
-		flashMessages: function(req, res) {
-    			var html = '';
-			['error', 'info'].forEach(function(type) {
-      				var messages = req.flash(type);
-      				if (messages.length > 0) {
-        				html = messages;
-      				}
-    			});
-    			return html; 
-  		}
+		flashMessages : function(req, res) {
+			var html = '';
+			[ 'error', 'info' ].forEach(function(type) {
+				var messages = req.flash(type);
+				if (messages.length > 0) {
+					html = messages;
+				}
+			});
+			return html;
+		}
 	});
 	app.use(app.router);
 	app.use('/public', express.static(__dirname + '/public'));
