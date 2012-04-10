@@ -14,9 +14,6 @@
 - form validation
 	- client										
 	- server									
-- check if user id already exists / put user name as primary key
-- make login error messages look nicer 
-- not logged in URI needs to go to that URI after login, not summary page
 
 - Logging with winston (https://github.com/flatiron/winston)
 - Testing with Vows (http://vowsjs.org/)
