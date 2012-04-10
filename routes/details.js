@@ -35,9 +35,9 @@ module.exports = function(app) {
 			if (req.body.status[i] == 'A') {
 				record.initAll(req.body.record_name[i], req.body.record_type[i], req.body.record_val[i], req.body.record_ttl[i]);
 				recordArray.push(record);
-//				rsdns.addRecords(req.body.domain_id, record.toJSON(), function(data) {
-//					res.send('success');
-//				});
+				// rsdns.addRecords(req.body.domain_id, record.toJSON(), function(data) {
+				// res.send('success');
+				// });
 			} else if (req.body.status[i] == 'M') {
 				rsdns.modifyRecords(req.body.domain_id, recordArray, function(data) {
 					res.send('success');
