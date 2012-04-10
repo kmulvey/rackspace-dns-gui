@@ -17,3 +17,4 @@
 	- server									
 - check if user id already exists / put user name as primary key
 - make login error messages look nicer 
+- Templates for the views (handlebars?)
