@@ -1,7 +1,7 @@
 A Frontend for The Rackspace DNS API
 ===
 
-[![Build Status](https://secure.travis-ci.org/kmulvey/dns.png?branch=master)](http://travis-ci.org/kmulvey/dns)
+[![Build Status](https://secure.travis-ci.org/kmulvey/rackspace-dns-gui.png?branch=master)](http://travis-ci.org/kmulvey/rackspace-dns-gui)
 
 ### Required node modules:
 
@@ -27,7 +27,7 @@ db-mysql:
 	
 mailer:
 
-	npm install [-g] mailer
+	npm install [-g] nodemailer
 
 ### Required changes
 
