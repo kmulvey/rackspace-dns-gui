@@ -40,9 +40,10 @@ module.exports = function(app) {
 						throw err;
 					else if (!data) {
 						res.send('Not a valid email.');
-					} else {}
+					} else {
+					}
 				});
-				
+
 				var transport = nodemailer.createTransport("SMTP", {
 					host : config.smtp_host,
 					port : config.smtp_port,
