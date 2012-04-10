@@ -29,12 +29,12 @@ Record.prototype.initAll = function(name, id, type, data, ttl, updated, created)
 Record.prototype.toJSON = function() {
 	var output = '{';
 	for ( var key in this) {
-		if(typeof this[key] != 'function' && this[key] != undefined && this[key] != null){
+		if (typeof this[key] != 'function' && this[key] != undefined && this[key] != null) {
 			console.log(key + ' is ' + typeof this[key] + ' = ' + this[key]);
 			output += '"' + key + '": "' + this[key] + '",';
 		}
 	}
-	output = output.substring(0, output.length -2);
+	output = output.substring(0, output.length - 2);
 	output += '}';
 	return output;
 };
