@@ -1,15 +1,15 @@
 var config = {
 	trace_cmd : "tracepath",
 	trace_cmd_6 : "tracepath6",
-	db_hostname : "",
-	db_user : "",
-	db_password : "",
-	db_database : "",
-	node_port : "",
-	smtp_host : "",
-	smtp_domain : "",
-	smtp_port : "",
-	email_from : "",
-	passwd_salt : ""
+	db_hostname : "localhost",
+	db_user : "root",
+	db_password : "keepouthax0rz",
+	db_database : "rsdns",
+	node_port : "3000",
+	smtp_host : "localhost",
+	smtp_domain : "localhost",
+	smtp_port : "25",
+	email_from : "dns@resin.theorywednesday.com",
+	passwd_salt : "salt!@#$"
 };
 module.exports = config;

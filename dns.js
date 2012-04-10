@@ -219,7 +219,7 @@ dns.prototype.getRecordDetails = function(domainId, recordId, callback) {
 
 // Add new record(s) to the specified domain
 dns.prototype.addRecords = function(domainId, records, callback) {
-	make_request('domains/' + domainId + '/records', 'POST', records.toJSON(), function(res) {
+	make_request('domains/' + domainId + '/records', 'POST', records, function(res) {
 		callback(res);
 	});
 };
@@ -241,7 +241,6 @@ dns.prototype.modifyRecords = function(domainId, records, callback) {
 				body = body + ', ';
 		}
 	}
-	console.log(body);
 	callback('hi');
 	//make_request('domains/' + domainId + '/records' + uri, 'PUT', body, function(res) {
 	//	callback(res);
@@ -285,12 +284,10 @@ function make_request(path, method, body, callback) {
 		};
 		var req = https.request(options);
 		req.write('{"credentials":{ "username": "' + dns.user_name + '", "key": "' + dns.key + '"}}');
-		console.log('Name : ' + dns.user_name + ', Key : ' + dns.key);
 		res = req.on('response', function(res) {
 			if (200 <= res.statusCode < 300) {
 				res.setEncoding('utf8');
 				res.on('data', function(d) {
-					console.log('data ' + d);
 					callback(d);
 				});
 			}
@@ -310,7 +307,6 @@ function make_request(path, method, body, callback) {
 				'Accept' : 'application/json'
 			}
 		};
-		console.log(options);
 		var req = https.request(options);
 		if (body != null && body != '')
 			req.write(body);
