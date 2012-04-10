@@ -1,0 +1,93 @@
+include includes/doctype
+html(class="no-js", lang="en")
+	// <![endif]
+	head
+		title Rackspace DNS
+		include includes/head
+	body
+		include includes/nav-bar
+		div.container-fluid.well
+			div.row-fluid
+			div.span12
+				form(id='details-form')
+					input(id="domain_id", name="domain_id", value=domainId, type="hidden")
+					table(id='record-table').table.table-condensed
+						thead
+							tr
+								th 
+									span(id="add")
+										i.icon-plus-sign
+								th Name
+								th ID
+								th Type
+								th Data
+								th TTL
+								th Updated
+								th Created
+						tbody
+							- each record in records
+								tr
+									td
+										input(type="checkbox", name="del")
+									td
+										input(type="text", name="record_name", value=record.name).input-hidden
+									td
+										input(type="text", name="record_id", value=record.id, readonly="readonly").span2
+									td
+										div.control-group
+											div.controls
+												select(name="record_type").span2
+													option(selected=('A'==record.type?'selected':null)) A
+													option(selected=('AAAA'==record.type?'selected':null)) AAAA
+													option(selected=('CNAME'==record.type?'selected':null)) CNAME
+													option(selected=('MX'==record.type?'selected':null)) MX
+													option(selected=('NS'==record.type?'selected':null)) NS
+													option(selected=('TXT'==record.type?'selected':null)) TXT
+													option(selected=('SVR'==record.type?'selected':null)) SVR
+									td
+										input(type="text", name="record_val", value=record.data).input-hidden
+									td
+										input(type="text", name="record_ttl", value=record.ttl).input-hidden.span1
+									td
+										input(type="text", name="record_updated", value=record.updated, readonly="readonly")
+									td
+										input(type="text", name="record_created", value=record.created, readonly="readonly")
+									td
+										input(type="hidden", name="status")
+									
+					br
+					br
+					button(type="submit", id="submit").btn.btn-large.btn-primary Save changes
+					button(type="reset", id="reset").btn.btn-large Cancel
+				
+		script(src="/js/jquery-1.7.2.min.js")
+		script
+			$("document").ready(function() {
+				$("#add").on('click', function(e) {
+					$('#record-table tbody tr:last').clone().appendTo("#record-table tbody");
+					$('#record-table tbody tr:last input').val('');
+					$('#record-table tbody tr:last input[name=status]').val('A');
+				});
+				$("#delete").on('click', function(e) {
+					var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";
+					$("#record-table tbody").append(html);
+				});
+				$('input[type="checkbox"]').change(function() {
+					if($(this).parents('tr').hasClass('delete'))
+						$(this).parents('tr').removeClass('delete label-important');
+					else
+						$(this).parents('tr').addClass('delete label-important');
+				});
+				$("#submit").on('click', function(e) {
+					e.preventDefault();
+					$.post('/details', $('#details-form').serialize(), function(data) {
+						alert('success');	
+					}).error(function(x, e) { 
+						$('#reset').after("<span class='help-inline'>Processing error.</span>");
+						$('.control-group').addClass('error');
+						$('.progress').removeClass('active').addClass('hidden');
+					});
+				});
+			});
+		
+		include includes/footer

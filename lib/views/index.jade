@@ -1,0 +1,112 @@
+include includes/doctype
+html(class="no-js", lang="en")
+	// <![endif]
+	head
+		title Rackspace DNS
+		include includes/head
+	body
+		include includes/login-nav-bar
+		div.container
+			div.row-fluid
+				div.span4
+					#{flashMessages}
+					&nbsp;
+				div.span4
+					form(id='signin-form', method="post", action="/").well
+						fieldset
+							legend Sign in
+							div.control-group
+								input(type='text', id='signin-username', name='username', placeholder="Username")
+								input(type='password', id='signin-password', name='password', placeholder="Password")
+								br
+								button(type="submit", id='signin-submit').btn.btn-primary.login-button Submit
+								br
+								span
+									a(data-toggle="modal", href="#forgot_modal").btn forgot password?
+				div.span4
+					&nbsp;
+			div.row-fluid
+				div.span4
+					&nbsp;
+				div.span4
+					form(id='signup_form').well
+						fieldset
+							legend Sign up
+							div.control-group
+								input(type='text', id='signup-username', name='username', placeholder="Username")
+								input(type='text', id='signup-email', name='email', placeholder="Email")
+								input(type='password', id='signup-password', name='password', placeholder="Password")
+								input(type='text', id='signup-r_username', name='r_username', placeholder="Rackspace Username")
+								input(type='text', id='signup-r_api_key', name='r_api_key', placeholder="Rackspace API Key")
+								br
+								button(type="submit", id='signup-submit').btn.btn-primary.login-button Submit
+				div.span4
+					&nbsp;	
+							
+		div(id="forgot_modal").modal.fade
+			div.modal-header
+				a(data-dismiss="modal").close x
+				h3 Forgot Password
+			div.modal-body
+				form(id='reset_form')
+					div.control-group
+						input(type='text', id='email', name='email', placeholder="Email")
+			div.modal-footer
+				a(href="#", id="reset_submit").btn.btn-primary Submit
+				a(href="#", id="close").btn Close
+		
+		script(src="/js/jquery-1.7.2.min.js")
+		script(src="/js/bootstrap-alert.js")
+		script(src="/js/bootstrap-modal.js")
+		script(src="/js/bootstrap-transition.js")
+		script
+			$('#forgot_modal').modal({
+				keyboard: true,
+				show: false
+			});
+			$('#forgot_modal').modal('hide');
+			$('#close').on('click', function(){
+				$('#forgot_modal').modal('hide');
+			});
+			$('#reset_submit').on('click', function(e){
+				e.preventDefault();
+				$('#reset_form .control-group').removeClass('error');
+				$('#reset_form .control-group span').remove();
+				
+				$.post('/passwd_reset', $('#reset_form').serialize(), function(data, textStatus, jqXHR) {
+					if(data == 'Reset link sent.'){
+						alert(data);
+						$('#forgot_modal').modal('hide');
+					}
+					else{
+						$('#forgot_modal #email').after("<span class='help-inline'>Processing error. " + data + "</span>");
+						$('#forgot_modal .control-group').addClass('error');
+					}
+					
+				}).error(function() { 
+					$('#forgot_modal #email').after("<span class='help-inline'>Processing error.</span>");
+					$('#forgot_modal .control-group').addClass('error');
+				});
+			});
+			$('#signup-submit').on('click', function(e){
+				e.preventDefault();
+				$('#signup_form .control-group').removeClass('error');
+				$('#signup_form span').remove();
+				
+				$.post('/create_acct', $('#signup_form').serialize(), function(data, textStatus, jqXHR) {
+					if(data == 'success'){
+						$('#signup_form .control-group').append('<br><span class="success">Success. Please sign in above.</span>');
+					}
+					else{
+						$('#signup_form .control-group').after("<span class='help-inline'>Processing error.</span>");
+						$('#signup_form .control-group').addClass('error');
+					}
+				});
+			});
+				
+				
+			
+			
+			
+		
+		include includes/footer
