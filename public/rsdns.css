@@ -25,3 +25,6 @@ select{
 th{
 	margin-bottom: 1%;
 }
+.editable{
+	border-color: #468847;
+}

@@ -30,13 +30,13 @@ html(class="no-js", lang="en")
 									td
 										input(type="checkbox", name="del")
 									td
-										input(type="text", name="record_name", value=record.name).input-hidden
+										input(type="text", name="record_name", value=record.name).input-hidden.editable
 									td
 										input(type="text", name="record_id", value=record.id, readonly="readonly").span2
 									td
 										div.control-group
 											div.controls
-												select(name="record_type").span2
+												select(name="record_type").span2.editable
 													option(selected=('A'==record.type?'selected':null)) A
 													option(selected=('AAAA'==record.type?'selected':null)) AAAA
 													option(selected=('CNAME'==record.type?'selected':null)) CNAME
@@ -45,14 +45,14 @@ html(class="no-js", lang="en")
 													option(selected=('TXT'==record.type?'selected':null)) TXT
 													option(selected=('SVR'==record.type?'selected':null)) SVR
 									td
-										input(type="text", name="record_val", value=record.data).input-hidden
+										input(type="text", name="record_val", value=record.data).input-hidden.editable
 									td
-										input(type="text", name="record_ttl", value=record.ttl).input-hidden.span1
+										input(type="text", name="record_ttl", value=record.ttl).input-hidden.span1.editable
 									td
 										input(type="text", name="record_updated", value=record.updated, readonly="readonly")
 									td
 										input(type="text", name="record_created", value=record.created, readonly="readonly")
-									td
+									td.status
 										input(type="hidden", name="status")
 									
 					br
@@ -63,11 +63,17 @@ html(class="no-js", lang="en")
 		script(src="/js/jquery-1.7.2.min.js")
 		script
 			$("document").ready(function() {
+				// add record
 				$("#add").on('click', function(e) {
 					$('#record-table tbody tr:last').clone().appendTo("#record-table tbody");
 					$('#record-table tbody tr:last input').val('');
 					$('#record-table tbody tr:last input[name=status]').val('A');
 				});
+				// modify record
+				$("input").change(function(e) {
+					$(this).parent().siblings('.status').children('input[name=status]').val('M');
+				});				
+				// delete record
 				$("#delete").on('click', function(e) {
 					var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";
 					$("#record-table tbody").append(html);
