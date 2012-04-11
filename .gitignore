@@ -5,4 +5,7 @@
 /curl
 /.project
 /.settings
+<<<<<<< HEAD
 /lib/config.js
+=======
+>>>>>>> github

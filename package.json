@@ -19,7 +19,7 @@
         }
     ],
     "engines": {
-        "node": ">= 0.6.0"
+        "node": ">= 0.4.0"
     },
     "dependencies": {
         "express": "2.5.2",
@@ -27,6 +27,6 @@
         "jade": ">= 0.20.3",
         "step": ">= 0.0.5",
         "db-mysql": ">= 0.7.6",
-        "mailer" : ">= 0.6.7"
+        "nodemailer" : ">= 0.3.14"
     }
 } 
