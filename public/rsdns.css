@@ -5,26 +5,15 @@
 .table th {
   border-bottom: 1px solid #ddd;
 }
-.table thead tr:hover {
-  background-color: transparent;
-}
 .delete{
 	text-decoration: line-through;
-}
-
-input.input-hidden{
-	border: 0px;
-	background: transparent;
 }
 select{
 	margin: 0;
 }
 .table td{
-	padding: 0;
+	padding: 0.3%;
 }
-th{
-	margin-bottom: 1%;
-}
-.editable{
-	border-color: #468847;
+button{
+	margin-left: 1%;
 }

@@ -79,16 +79,18 @@ html(class="no-js", lang="en")
 					$("#record-table tbody").append(html);
 				});
 				$('input[type="checkbox"]').change(function() {
+					if($(this).parents('tr').hasClass('delete'))
+						$(this).parents('tr').removeClass('delete label-important');
+					else
+						$(this).parents('tr').addClass('delete label-important');
+						
 					if ($(this).is(':checked')) {
 						$('#record-table tbody tr:last input[name=status]').val('R');
 					}
 					else{
 						$('#record-table tbody tr:last input[name=status]').val('');
 					}
-					if($(this).parents('tr').hasClass('delete'))
-						$(this).parents('tr').removeClass('delete label-important');
-					else
-						$(this).parents('tr').addClass('delete label-important');
+
 				});
 				$("#submit").on('click', function(e) {
 					e.preventDefault();

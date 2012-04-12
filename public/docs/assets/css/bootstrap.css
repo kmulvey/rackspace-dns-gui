@@ -1008,7 +1008,7 @@ table {
   vertical-align: top;
 }
 .table tr:hover {
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
 }
 .table thead tr:hover {
   background-color: transparent;
