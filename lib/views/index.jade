@@ -9,35 +9,33 @@ html(class="no-js", lang="en")
 		div.container
 			div.row-fluid
 				div.span4
-					#{flashMessages}
 					&nbsp;
 				div.span4
-					form(id='signin-form', method="post", action="/").well
+					form(id='signin-form', method="post", action="/").well.span8
 						fieldset
 							legend Sign in
 							div.control-group
-								input(type='text', id='signin-username', name='username', placeholder="Username")
-								input(type='password', id='signin-password', name='password', placeholder="Password")
+								input(type='text', id='signin-username', name='username', placeholder="Username").span12
+								input(type='password', id='signin-password', name='password', placeholder="Password").span12
 								br
 								button(type="submit", id='signin-submit').btn.btn-primary.login-button Submit
-								br
-								span
-									a(data-toggle="modal", href="#forgot_modal").btn forgot password?
+								button(data-toggle="modal", href="#forgot_modal").btn.login-button Forgot password?
+							#{flashMessages}
 				div.span4
 					&nbsp;
 			div.row-fluid
 				div.span4
 					&nbsp;
 				div.span4
-					form(id='signup_form').well
+					form(id='signup_form').well.span8
 						fieldset
 							legend Sign up
 							div.control-group
-								input(type='text', id='signup-username', name='username', placeholder="Username")
-								input(type='text', id='signup-email', name='email', placeholder="Email")
-								input(type='password', id='signup-password', name='password', placeholder="Password")
-								input(type='text', id='signup-r_username', name='r_username', placeholder="Rackspace Username")
-								input(type='text', id='signup-r_api_key', name='r_api_key', placeholder="Rackspace API Key")
+								input(type='text', id='signup-username', name='username', placeholder="Username").span12
+								input(type='text', id='signup-email', name='email', placeholder="Email").span12
+								input(type='password', id='signup-password', name='password', placeholder="Password").span12
+								input(type='text', id='signup-r_username', name='r_username', placeholder="Rackspace Username").span12
+								input(type='text', id='signup-r_api_key', name='r_api_key', placeholder="Rackspace API Key").span12
 								br
 								button(type="submit", id='signup-submit').btn.btn-primary.login-button Submit
 				div.span4

@@ -85,17 +85,22 @@ html(class="no-js", lang="en")
 						$(this).parents('tr').addClass('delete label-important');
 						
 					if ($(this).is(':checked')) {
-						$('#record-table tbody tr:last input[name=status]').val('R');
+						$(this).parent().siblings('.status').children('input[name=status]').val('R');
 					}
 					else{
-						$('#record-table tbody tr:last input[name=status]').val('');
+						$(this).parent().siblings('.status').children('input[name=status]').val('');
 					}
 
 				});
 				$("#submit").on('click', function(e) {
 					e.preventDefault();
 					$.post('/details', $('#details-form').serialize(), function(data) {
-						alert('success');	
+						if (data == 'success') {
+							alert(data);
+							window.location.reload(true);
+						} else {
+							alert(data);
+						}
 					}).error(function(x, e) { 
 						$('#reset').after("<span class='help-inline'>Processing error.</span>");
 						$('.control-group').addClass('error');

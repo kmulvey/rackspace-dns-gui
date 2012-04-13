@@ -11,35 +11,98 @@ html(class="no-js", lang="en")
 			div.span1
 				&nbsp;
 			div.span10
-				table.table.table-condensed
-					thead
-						tr
-							th
-							th Domain Name
-							th Domain ID
-							th Comment
-							th Account ID
-							th TTL
-							th Email Address
-							th Updated
-							th Created
-					tbody
-						- each domain in domains
+				form(id='domains-form')
+					table(id='domain-table').table.table-condensed
+						thead
 							tr
-								td
-									input(type="checkbox")
-								td
-									a(href="/details/"+domain.id)= domain.name
-								td= domain.id
-								td= domain.comment
-								td= domain.accountId
-								td= domain.ttl
-								td= domain.emailAddress
-								td= domain.updated
-								td= domain.created
-		
+								th
+									span(id="add")
+										i.icon-plus-sign
+								th Domain Name
+								th Domain ID
+								th Comment
+								th Account ID
+								th TTL
+								th Email Address
+								th Updated
+								th Created
+						tbody
+							- each domain in domains
+								tr
+									td
+										input(type="checkbox")
+									td
+										a(href="/details/"+domain.id)= domain.name
+									td
+										input(type="text", name="domain_id", value=domain.id, readonly="readonly").span2
+									td
+										input(type="text", name="domain_comment", value=domain.comment).input-hidden.editable
+									td
+										input(type="text", name="domain_accountId", value=domain.accountId, readonly="readonly").span2
+									td
+										input(type="text", name="domain_ttl", value=domain.ttl).input-hidden.editable
+									td
+										input(type="text", name="domain_emailAddress", value=domain.emailAddress).input-hidden.editable
+									td
+										input(type="text", name="domain_updated", value=domain.updated, readonly="readonly").span2
+									td
+										input(type="text", name="domain_created", value=domain.created, readonly="readonly").span2
+									td.status
+										input(type="hidden", name="status")
+				br
+				br
+				button(type="submit", id="submit").btn.btn-large.btn-primary Save changes
+				button(type="reset", id="reset").btn.btn-large Cancel
 			div.span1
 				&nbsp;
 		script(src="/js/jquery-1.7.2.min.js")
-		
+		script
+			$("document").ready(function() {
+				// add record
+				$("#add").on('click', function(e) {
+					$('#domain-table tbody tr:last').clone().appendTo("#domain-table tbody");
+					$('#domain-table tbody tr:last td:nth-child(2)').html('<input type="text" name="domain_name" value=domain.name class="input-hidden editable">');
+					$('#domain-table tbody tr:last input').val('');
+					$('#domain-table tbody tr:last input[name=status]').val('A');
+					//$('#domain-table tbody tr:last td:gt(1)').text('');
+				});
+				// modify record
+				$("input").change(function(e) {
+					$(this).parent().siblings('.status').children('input[name=status]').val('M');
+				});
+				// delete record
+				$("#delete").on('click', function(e) {
+					var html = "<tr>" + $('#record-table tbody tr:last').html() + "</tr>";
+					$("#record-table tbody").append(html);
+				});
+				$('input[type="checkbox"]').change(function() {
+					if($(this).parents('tr').hasClass('delete'))
+						$(this).parents('tr').removeClass('delete label-important');
+					else
+						$(this).parents('tr').addClass('delete label-important');
+
+					if ($(this).is(':checked')) {
+						$(this).parent().siblings('.status').children('input[name=status]').val('R');
+					}
+					else{
+						$(this).parent().siblings('.status').children('input[name=status]').val('');
+					}
+
+				});
+				$("#submit").on('click', function(e) {
+					e.preventDefault();
+					$.post('/domains', $('#domains-form').serialize(), function(data) {
+						if (data == 'success') {
+							alert(data);
+							window.location.reload(true);
+						} else {
+							alert(data);
+						}	
+					}).error(function(x, e) { 
+						$('#reset').after("<span class='help-inline'>Processing error.</span>");
+						$('.control-group').addClass('error');
+						$('.progress').removeClass('active').addClass('hidden');
+					});
+				});
+			});
 		include includes/footer
