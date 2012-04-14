@@ -8,9 +8,7 @@ html(class="no-js", lang="en")
 		include includes/nav-bar
 		div.container-fluid.well
 			div.row-fluid
-			div.span1
-				&nbsp;
-			div.span10
+			div.span12
 				form(id='domains-form')
 					table(id='domain-table').table.table-condensed
 						thead
@@ -34,13 +32,13 @@ html(class="no-js", lang="en")
 									td
 										a(href="/details/"+domain.id)= domain.name
 									td
-										input(type="text", name="domain_id", value=domain.id, readonly="readonly").span2
+										input(type="text", name="domain_id", value=domain.id, readonly="readonly").span1
 									td
 										input(type="text", name="domain_comment", value=domain.comment).input-hidden.editable
 									td
-										input(type="text", name="domain_accountId", value=domain.accountId, readonly="readonly").span2
+										input(type="text", name="domain_accountId", value=domain.accountId, readonly="readonly").span1
 									td
-										input(type="text", name="domain_ttl", value=domain.ttl).input-hidden.editable
+										input(type="text", name="domain_ttl", value=domain.ttl).input-hidden.editable.span1
 									td
 										input(type="text", name="domain_emailAddress", value=domain.emailAddress).input-hidden.editable
 									td
@@ -53,8 +51,7 @@ html(class="no-js", lang="en")
 				br
 				button(type="submit", id="submit").btn.btn-large.btn-primary Save changes
 				button(type="reset", id="reset").btn.btn-large Cancel
-			div.span1
-				&nbsp;
+
 		script(src="/js/jquery-1.7.2.min.js")
 		script
 			$("document").ready(function() {
