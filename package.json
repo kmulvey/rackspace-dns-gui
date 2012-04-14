@@ -40,7 +40,7 @@
         "assert": "0.4.9"
     },
     "scripts": {
-  		"test": "vows --spec",
+  		"test": "vows lib/test/* --spec",
   		"build": "lint.sh"
 	}
 } 
