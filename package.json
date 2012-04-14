@@ -41,6 +41,6 @@
     },
     "scripts": {
   		"test": "vows lib/test/* --spec",
-  		"build": "lint.sh"
+  		"build": "make lint && make lint-package-json"
 	}
 } 
