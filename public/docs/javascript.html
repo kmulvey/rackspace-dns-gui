@@ -2,15 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Javascript · Twitter Bootstrap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -18,11 +13,17 @@
     <link href="assets/css/docs.css" rel="stylesheet">
     <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/ico/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="assets/ico/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="assets/ico/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
   <body data-spy="scroll" data-target=".subnav" data-offset="50">
@@ -39,7 +40,7 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="./index.html">Bootstrap</a>
-          <div class="nav-collapse">
+          <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="">
                 <a href="./index.html">Overview</a>
@@ -134,7 +135,7 @@
         <div class="span3">
           <label>
             <h3><a href="./javascript.html#tooltips">Tooltips</a></h3>
-            <p>A new take on the jQuery Tipsy plugin, Tooltips don't rely on images, uss CSS3 for animations, and data-attributes for local title storage.</p>
+            <p>A new take on the jQuery Tipsy plugin, Tooltips don't rely on images&mdash;they use CSS3 for animations and data-attributes for local title storage.</p>
           </label>
         </div>
         <div class="span3">
@@ -205,17 +206,17 @@
           <h2>Static example</h2>
           <p>Below is a statically rendered modal.</p>
           <div class="well modal-example" style="background-color: #888; border: none;">
-            <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1">
+            <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; max-width: 100%;">
               <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <button class="close" data-dismiss="modal">&times;</button>
                 <h3>Modal header</h3>
               </div>
               <div class="modal-body">
                 <p>One fine body…</p>
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn btn-primary">Save changes</a>
                 <a href="#" class="btn">Close</a>
+                <a href="#" class="btn btn-primary">Save changes</a>
               </div>
             </div>
           </div> <!-- /well -->
@@ -225,7 +226,7 @@
           <!-- sample modal content -->
           <div id="myModal" class="modal hide fade">
             <div class="modal-header">
-              <a class="close" data-dismiss="modal" >&times;</a>
+              <button class="close" data-dismiss="modal">&times;</button>
               <h3>Modal Heading</h3>
             </div>
             <div class="modal-body">
@@ -237,10 +238,21 @@
 
               <h4>Tooltips in a modal</h4>
               <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> should have tooltips on hover.</p>
+
+              <hr>
+
+              <h4>Overflowing text to show optional scrollbar</h4>
+              <p>We set a fixed <code>max-height</code> on the <code>.modal-body</code>. Watch it overflow with all this extra lorem ipsum text we've included.</p>
+              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
             </div>
             <div class="modal-footer">
-              <a href="#" class="btn btn-primary">Save changes</a>
               <a href="#" class="btn" data-dismiss="modal" >Close</a>
+              <a href="#" class="btn btn-primary">Save changes</a>
             </div>
           </div>
           <a data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">Launch demo modal</a>
@@ -265,13 +277,19 @@
                <td>backdrop</td>
                <td>boolean</td>
                <td>true</td>
-               <td>Includes a modal-backdrop element</td>
+               <td>Includes a modal-backdrop element. Alternatively, specify <code>static</code> for a backdrop which doesn't close the modal on click.</td>
              </tr>
              <tr>
                <td>keyboard</td>
                <td>boolean</td>
                <td>true</td>
                <td>Closes the modal when escape key is pressed</td>
+             </tr>
+             <tr>
+               <td>show</td>
+               <td>boolean</td>
+               <td>true</td>
+               <td>Shows the modal when initialized.</td>
              </tr>
             </tbody>
           </table>
@@ -283,17 +301,17 @@
 </pre>
 
 <pre class="prettyprint linenums">
-&lt;div class="modal"&gt;
+&lt;div class="modal" id="myModal"&gt;
   &lt;div class="modal-header"&gt;
-    &lt;a class="close" data-dismiss="modal"&gt;&times;&lt;/a&gt;
+    &lt;button class="close" data-dismiss="modal"&gt;&times;&lt;/button&gt;
     &lt;h3&gt;Modal header&lt;/h3&gt;
   &lt;/div&gt;
   &lt;div class="modal-body"&gt;
     &lt;p&gt;One fine body…&lt;/p&gt;
   &lt;/div&gt;
   &lt;div class="modal-footer"&gt;
-    &lt;a href="#" class="btn btn-primary"&gt;Save changes&lt;/a&gt;
     &lt;a href="#" class="btn"&gt;Close&lt;/a&gt;
+    &lt;a href="#" class="btn btn-primary"&gt;Save changes&lt;/a&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
@@ -458,7 +476,7 @@ $('#myModal').on('hidden', function () {
           </div>
 
 <pre class="prettyprint linenums">
-&lt;ul class="nav pills"&gt;
+&lt;ul class="nav nav-pills"&gt;
   &lt;li class="active"&gt;&lt;a href="#"&gt;Regular link&lt;/a&gt;&lt;/li&gt;
   &lt;li class="dropdown" id="menu1"&gt;
     &lt;a class="dropdown-toggle" data-toggle="dropdown" href="#menu1"&gt;
@@ -475,6 +493,20 @@ $('#myModal').on('hidden', function () {
   &lt;/li&gt;
   ...
 &lt;/ul&gt;</pre>
+          <p>To keep URLs intact, use the <code>data-target</code> attribute instead of <code>href="#"</code>.</p>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-pills"&gt;
+  &lt;li class="dropdown"&gt;
+    &lt;a class="dropdown-toggle" data-toggle="dropdown" data-target="#" href="path/to/page.html"&gt;
+      Dropdown
+      &lt;b class="caret"&gt;&lt;/b&gt;
+    &lt;/a&gt;
+    &lt;ul class="dropdown-menu"&gt;
+      ...
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</pre>
           <h3>Methods</h3>
           <h4>$().dropdown()</h4>
           <p>A programatic api for activating menus for a given navbar or tabbed navigation.</p>
@@ -553,6 +585,14 @@ $('#myModal').on('hidden', function () {
             <strong>Heads up!</strong>
             Navbar links must have resolvable id targets. For example, a <code>&lt;a href="#home"&gt;home&lt;/a&gt;</code> must correspond to something in the dom like <code>&lt;div id="home"&gt;&lt;/div&gt;</code>.
           </div>
+          <h3>Methods</h3>
+          <h4>.scrollspy('refresh')</h4>
+          <p>When using scrollspy in conjunction with adding or removing of elements from the DOM, you'll need to call the refresh method like so:</p>
+<pre class="prettyprint linenums">
+$('[data-spy="scroll"]').each(function () {
+  var $spy = $(this).scrollspy('refresh')
+});
+</pre>
           <h3>Options</h3>
           <table class="table table-bordered table-striped">
             <thead>
@@ -570,6 +610,21 @@ $('#myModal').on('hidden', function () {
                <td>10</td>
                <td>Pixels to offset from top when calculating position of scroll.</td>
              </tr>
+            </tbody>
+          </table>
+           <h3>Events</h3>
+          <table class="table table-bordered table-striped">
+            <thead>
+             <tr>
+               <th style="width: 150px;">Event</th>
+               <th>Description</th>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+               <td>activate</td>
+               <td>This event fires whenever a new item becomes activated by the scrollspy.</td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -592,7 +647,7 @@ $('#myModal').on('hidden', function () {
         <div class="span9 columns">
           <h2>Example tabs</h2>
           <p>Click the tabs below to toggle between hidden panes, even via dropdown menus.</p>
-          <ul id="tab" class="nav nav-tabs">
+          <ul id="myTab" class="nav nav-tabs">
             <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
             <li><a href="#profile" data-toggle="tab">Profile</a></li>
             <li class="dropdown">
@@ -619,24 +674,35 @@ $('#myModal').on('hidden', function () {
           </div>
           <hr>
           <h2>Using bootstrap-tab.js</h2>
-          <p>Enable tabbable tabs via javascript:</p>
-          <pre class="prettyprint linenums">$('#myTab').tab('show')</pre>
-          <h3>Markup</h3>
-          <p>You can activate a tab or pill navigation without writing any javascript by simply specifying <code>data-toggle="tab"</code> or <code>data-toggle="pill"</code> on an element.</p>
+          <p>Enable tabbable tabs via javascript (each tab needs to be activated individually):</p>
+          <pre class="prettyprint linenums">
+$('#myTab a').click(function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+})</pre>
+          <p>You can activate individual tabs in several ways:</p>
 <pre class="prettyprint linenums">
-&lt;ul class="tabs"&gt;
+$('#myTab a[href="#profile"]').tab('show'); // Select tab by name
+$('#myTab a:first').tab('show'); // Select first tab
+$('#myTab a:last').tab('show'); // Select last tab
+$('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
+</pre>
+          <h3>Markup</h3>
+          <p>You can activate a tab or pill navigation without writing any javascript by simply specifying <code>data-toggle="tab"</code> or <code>data-toggle="pill"</code> on an element. Adding the <code>nav</code> and <code>nav-tabs</code> classes to the tab <code>ul</code> will apply the bootstrap tab styling.</p>
+<pre class="prettyprint linenums">
+&lt;ul class="nav nav-tabs"&gt;
   &lt;li&gt;&lt;a href="#home" data-toggle="tab"&gt;Home&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#profile" data-toggle="tab"&gt;Profile&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#messages" data-toggle="tab"&gt;Messages&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href="#ettings" data-toggle="tab"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#settings" data-toggle="tab"&gt;Settings&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</pre>
           <h3>Methods</h3>
           <h4>$().tab</h4>
           <p>
-            Activates a tab element and content container. Tab should have either a `data-target` or an `href` targeting a container node in the dom.
+            Activates a tab element and content container. Tab should have either a <code>data-target</code> or an <code>href</code> targeting a container node in the DOM.
           </p>
 <pre class="prettyprint linenums">
-&lt;ul class="tabs"&gt;
+&lt;ul class="nav nav-tabs" id="myTab"&gt;
   &lt;li class="active"&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#profile"&gt;Profile&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="#messages"&gt;Messages&lt;/a&gt;&lt;/li&gt;
@@ -652,7 +718,7 @@ $('#myModal').on('hidden', function () {
 
 &lt;script&gt;
   $(function () {
-    $('.tabs a:last').tab('show')
+    $('#myTab a:last').tab('show');
   })
 &lt;/script&gt;</pre>
           <h3>Events</h3>
@@ -694,14 +760,14 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
       <div class="row">
         <div class="span3 columns">
           <h3>About Tooltips</h3>
-          <p>Inspired by the excellent jQuery.tipsy plugin written by Jason Frame; Tooltips are an updated version, which don't rely on images, uss css3 for animations, and data-attributes for local title storage.</p>
+          <p>Inspired by the excellent jQuery.tipsy plugin written by Jason Frame; Tooltips are an updated version, which don't rely on images, use css3 for animations, and data-attributes for local title storage.</p>
           <a href="assets/js/bootstrap-tooltip.js" target="_blank" class="btn">Download file</a>
         </div>
         <div class="span9 columns">
           <h2>Example use of Tooltips</h2>
           <p>Hover over the links below to see tooltips:</p>
           <div class="tooltip-demo well">
-            <p class="muted" style="margin-bottom: 0;">Tight pants next level keffiyeh <a href="#" rel='tooltip' title="first tooltip">you probably</a> haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel <a href="#" rel='tooltip' title='Another tooltip'>have a</a> terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. A <a href="#" rel='tooltip' title='Another one here too'>really ironic</a> artisan whatever keytar, scenester farm-to-table banksy Austin <a href="#" rel='tooltip' title='The last tip!'>twitter handle</a> freegan cred raw denim single-origin coffee viral.
+            <p class="muted" style="margin-bottom: 0;">Tight pants next level keffiyeh <a href="#" rel="tooltip" title="first tooltip">you probably</a> haven't heard of them. Photo booth beard raw denim letterpress vegan messenger bag stumptown. Farm-to-table seitan, mcsweeney's fixie sustainable quinoa 8-bit american apparel <a href="#" rel="tooltip" title="Another tooltip">have a</a> terry richardson vinyl chambray. Beard stumptown, cardigans banh mi lomo thundercats. Tofu biodiesel williamsburg marfa, four loko mcsweeney's cleanse vegan chambray. A really ironic artisan <a href="#" rel="tooltip" title="Another one here too">whatever keytar</a>, scenester farm-to-table banksy Austin <a href="#" rel="tooltip" title="The last tip!">twitter handle</a> freegan cred raw denim single-origin coffee viral.
             </p>
           </div>
           <hr>
@@ -727,7 +793,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
              </tr>
              <tr>
                <td>placement</td>
-               <td>string</td>
+               <td>string|function</td>
                <td>'top'</td>
                <td>how to position the tooltip - top | bottom | left | right</td>
              </tr>
@@ -754,7 +820,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
                <td>number | object</td>
                <td>0</td>
                <td>
-                <p>delay showing and hiding the tooltip (ms)</p>
+                <p>delay showing and hiding the tooltip (ms) - does not apply to manual trigger type</p>
                 <p>If a number is supplied, delay is applied to both hide/show</p>
                 <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
                </td>
@@ -767,17 +833,20 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
           </div>
           <h3>Markup</h3>
           <p>For performance reasons, the Tooltip and Popover data-apis are opt in. If you would like to use them just specify a selector option.</p>
+<pre class="prettyprint linenums">
+&lt;a href="#" rel="tooltip" title="first tooltip"&gt;hover over me&lt;/a&gt;
+</pre>
           <h3>Methods</h3>
           <h4>$().tooltip(options)</h4>
           <p>Attaches a tooltip handler to an element collection.</p>
           <h4>.tooltip('show')</h4>
-          <p>Reveals an elements tooltip.</p>
+          <p>Reveals an element's tooltip.</p>
           <pre class="prettyprint linenums">$('#element').tooltip('show')</pre>
           <h4>.tooltip('hide')</h4>
-          <p>Hides an elements tooltip.</p>
+          <p>Hides an element's tooltip.</p>
           <pre class="prettyprint linenums">$('#element').tooltip('hide')</pre>
           <h4>.tooltip('toggle')</h4>
-          <p>Toggles an elements tooltip.</p>
+          <p>Toggles an element's tooltip.</p>
           <pre class="prettyprint linenums">$('#element').tooltip('toggle')</pre>
         </div>
       </div>
@@ -795,7 +864,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
         <div class="span3 columns">
           <h3>About popovers</h3>
           <p>Add small overlays of content, like those on the iPad, to any element for housing secondary information.</p>
-          <p class="muted"><strong>*</strong> Requires <a href="#tooltip">Tooltip</a> to be included</p>
+          <p class="muted"><strong>*</strong> Requires <a href="#tooltips">Tooltip</a> to be included</p>
           <a href="assets/js/bootstrap-popover.js" target="_blank" class="btn">Download file</a>
         </div>
         <div class="span9 columns">
@@ -827,7 +896,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
              </tr>
              <tr>
                <td>placement</td>
-               <td>string</td>
+               <td>string|function</td>
                <td>'right'</td>
                <td>how to position the popover - top | bottom | left | right</td>
              </tr>
@@ -860,7 +929,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
                <td>number | object</td>
                <td>0</td>
                <td>
-                <p>delay showing and hiding the popover (ms)</p>
+                <p>delay showing and hiding the popover (ms) - does not apply to manual trigger type</p>
                 <p>If a number is supplied, delay is applied to both hide/show</p>
                 <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
                </td>
@@ -873,7 +942,7 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
           </div>
           <h3>Markup</h3>
           <p>
-          For performance reasons, the Tooltip and Popover data-apis are opt in. If you would like to use them just specify a the selector option.
+          For performance reasons, the Tooltip and Popover data-apis are opt in. If you would like to use them just specify a selector option.
           </p>
           <h3>Methods</h3>
           <h4>$().popover(options)</h4>
@@ -909,19 +978,19 @@ $('a[data-toggle="tab"]').on('shown', function (e) {
           <h2>Example alerts</h2>
           <p>The alerts plugin works on regular alert messages, and block messages.</p>
           <div class="alert fade in">
-            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <button class="close" data-dismiss="alert">&times;</button>
             <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
           </div>
           <div class="alert alert-block alert-error fade in">
-            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <button class="close" data-dismiss="alert">&times;</button>
             <h4 class="alert-heading">Oh snap! You got an error!</h4>
             <p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
             <p>
-              <a class="btn btn-danger small" href="#">Take this action</a> <a class="btn small" href="#">Or do this</a>
+              <a class="btn btn-danger" href="#">Take this action</a> <a class="btn" href="#">Or do this</a>
             </p>
           </div>
           <hr>
-          <h2>Using bootstrap-alerts.js</h2>
+          <h2>Using bootstrap-alert.js</h2>
           <p>Enable dismissal of an alert via javascript:</p>
           <pre class="prettyprint linenums">$(".alert").alert()</pre>
           <h3>Markup</h3>
@@ -1019,7 +1088,7 @@ $('#my-alert').bind('closed', function () {
           <hr>
           <h2>Using bootstrap-button.js</h2>
           <p>Enable buttons via javascript:</p>
-          <pre class="prettyprint linenums">$('.tabs').button()</pre>
+          <pre class="prettyprint linenums">$('.nav-tabs').button()</pre>
             <h3>Markup</h3>
           <p>Data attributes are integral to the button plugin. Check out the example code below for the various markup types.</p>
 <pre class="prettyprint linenums">
@@ -1042,7 +1111,7 @@ $('#my-alert').bind('closed', function () {
 </pre>
           <h3>Methods</h3>
           <h4>$().button('toggle')</h4>
-          <p>Toggles push state. Gives btn the look that it's been activated.</p>
+          <p>Toggles push state. Gives the button the appearance that it has been activated.</p>
           <div class="alert alert-info">
             <strong>Heads up!</strong>
             You can enable auto toggling of a button by using the <code>data-toggle</code> attribute.
@@ -1081,7 +1150,8 @@ $('#my-alert').bind('closed', function () {
           <h3>About</h3>
           <p>Get base styles and flexible support for collapsible components like accordions and navigation.</p>
           <a href="assets/js/bootstrap-collapse.js" target="_blank" class="btn">Download file</a>
-        </div>
+          <p class="muted"><strong>*</strong> Requires the Transitions plugin to be included.</p>
+       </div>
         <div class="span9 columns">
           <h2>Example accordion</h2>
           <p>Using the collapse plugin, we built a simple accordion style widget:</p>
@@ -1145,7 +1215,7 @@ $('#my-alert').bind('closed', function () {
                <td>parent</td>
                <td>selector</td>
                <td>false</td>
-               <td>If selector then all collapsible elements under the specified parent will be closed when this collasabile item is shown. (similar to traditional accordion behavior)</td>
+               <td>If selector then all collapsible elements under the specified parent will be closed when this collapsible item is shown. (similar to traditional accordion behavior)</td>
              </tr>
              <tr>
                <td>toggle</td>
@@ -1288,17 +1358,25 @@ $('#myCollapsible').on('hidden', function () {
                <td>interval</td>
                <td>number</td>
                <td>5000</td>
-               <td>The amount of time to delay between automatically cycling an item.</td>
+               <td>The amount of time to delay between automatically cycling an item. If false, carousel will not automatically cycle.</td>
+             </tr>
+             <tr>
+               <td>pause</td>
+               <td>string</td>
+               <td>"hover"</td>
+               <td>Pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on mouseleave.</td>
              </tr>
             </tbody>
           </table>
           <h3>Markup</h3>
-          <p>Data attributes are integral to the carousel plugin. Check out the example code below for the various markup types.</p>
+          <p>Data attributes are used for the previous and next conrols. Check out the example markup below.</p>
 <pre class="prettyprint linenums">
-&lt;div class="carousel"&gt;
+&lt;div id="myCarousel" class="carousel"&gt;
   &lt;!-- Carousel items --&gt;
   &lt;div class="carousel-inner"&gt;
-    ...
+    &lt;div class="active item"&gt;…&lt;/div&gt;
+    &lt;div class="item"&gt;…&lt;/div&gt;
+    &lt;div class="item"&gt;…&lt;/div&gt;
   &lt;/div&gt;
   &lt;!-- Carousel nav --&gt;
   &lt;a class="carousel-control left" href="#myCarousel" data-slide="prev"&gt;&amp;lsaquo;&lt;/a&gt;
@@ -1309,7 +1387,7 @@ $('#myCollapsible').on('hidden', function () {
           <h4>.carousel(options)</h4>
           <p>Initializes the carousel with an optional options <code>object</code> and starts cycling through items.</p>
 <pre class="prettyprint linenums">
-$('.myCarousel').carousel({
+$('.carousel').carousel({
   interval: 2000
 })
 </pre>
@@ -1324,7 +1402,7 @@ $('.myCarousel').carousel({
           <h4>.carousel('next')</h4>
           <p>Cycles to the next item.</p>
           <h3>Events</h3>
-          <p>Bootstrap's modal class exposes a few events for hooking into modal functionality.</p>
+          <p>Bootstrap's carousel class exposes two events for hooking into carousel functionality.</p>
           <table class="table table-bordered table-striped">
             <thead>
              <tr>
@@ -1339,7 +1417,7 @@ $('.myCarousel').carousel({
              </tr>
              <tr>
                <td>slid</td>
-               <td>This event is fired when the carousel has completed it's slide transition.</td>
+               <td>This event is fired when the carousel has completed its slide transition.</td>
              </tr>
             </tbody>
           </table>
@@ -1422,7 +1500,7 @@ $('.myCarousel').carousel({
 </pre>
           <h3>Methods</h3>
           <h4>.typeahead(options)</h4>
-          <p>Initializes an input with a typahead.</p>
+          <p>Initializes an input with a typeahead.</p>
         </div>
       </div>
     </section>

@@ -2,15 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Less · Twitter Bootstrap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -18,11 +13,17 @@
     <link href="assets/css/docs.css" rel="stylesheet">
     <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
-    <link rel="apple-touch-icon" href="assets/ico/apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="assets/ico/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="assets/ico/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
   <body data-spy="scroll" data-target=".subnav" data-offset="50">
@@ -39,7 +40,7 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="./index.html">Bootstrap</a>
-          <div class="nav-collapse">
+          <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="">
                 <a href="./index.html">Overview</a>
@@ -123,7 +124,7 @@
     </div>
     <div class="span4">
       <h3>Operations</h3>
-      <p>Make your grid, leading, and more super flexible by doing the math on the fly with operations. Multiple, divide, add, and subtract your way to CSS sanity.</p>
+      <p>Make your grid, leading, and more super flexible by doing the math on the fly with operations. Multiply, divide, add, and subtract your way to CSS sanity.</p>
     </div>
   </div>
 </section>
@@ -139,12 +140,24 @@
 
   <div class="row">
     <div class="span6">
-      <h3>Hyperlinks</h3>
+      <h3>Scaffolding and links</h3>
       <table class="table table-bordered table-striped">
         <tbody>
           <tr>
-            <td class="span2"><code>@linkColor</code></td>
-            <td>#08c</td>
+            <td class="span2"><code>@bodyBackground</code></td>
+            <td><code>@white</code></td>
+            <td>Page background color</td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #fff;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@textColor</code></td>
+            <td><code>@grayDark</code></td>
+            <td>Default text color for entire body, headings, and more</td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #333;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@linkColor</code></td>
+            <td><code>#08c</code></td>
             <td>Default link text color</td>
             <td class="swatch-col"><span class="swatch" style="background-color: #08c;"></span></td>
           </tr>
@@ -185,16 +198,69 @@
       <table class="table table-bordered table-striped">
         <tbody>
           <tr>
+            <td class="span2"><code>@sansFontFamily</code></td>
+            <td colspan="2">"Helvetica Neue", Helvetica, Arial, sans-serif</td>
+          </tr>
+          <tr>
+            <td><code>@serifFontFamily</code></td>
+            <td colspan="2"><code>Georgia, "Times New Roman", Times, serif</code></td>
+          </tr>
+          <tr>
+            <td><code>@monoFontFamily</code></td>
+            <td colspan="2">Menlo, Monaco, "Courier New", monospace</td>
+          </tr>
+
+          <tr>
             <td class="span2"><code>@baseFontSize</code></td>
             <td>13px</td>
+            <td><em class="muted">Must be pixels</em></td>
           </tr>
           <tr>
             <td><code>@baseFontFamily</code></td>
-            <td><code>"Helvetica Neue", Helvetica, Arial, sans-serif</code></td>
+            <td colspan="2"><code>@sansFontFamily</code></td>
           </tr>
           <tr>
             <td><code>@baseLineHeight</code></td>
             <td>18px</td>
+            <td><em class="muted">Must be pixels</em></td>
+          </tr>
+          <tr>
+            <td><code>@altFontFamily</code></td>
+            <td colspan="2"><code>@serifFontFamily</code></td>
+          </tr>
+
+          <tr>
+            <td class="span2"><code>@headingsFontFamily</code></td>
+            <td colspan="2"><code>inherit</code></td>
+          </tr>
+          <tr>
+            <td><code>@headingsFontWeight</code></td>
+            <td colspan="2"><code>bold</code></td>
+          </tr>
+          <tr>
+            <td><code>@headingsColor</code></td>
+            <td colspan="2"><code>inherit</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Tables</h3>
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td class="span2"><code>@tableBackground</code></td>
+            <td><code>transparent</code></td>
+          </tr>
+          <tr>
+            <td><code>@tableBackgroundAccent</code></td>
+            <td><code>#f9f9f9</code></td>
+          </tr>
+          <tr>
+            <td><code>@tableBackgroundHover</code></td>
+            <td><code>#f5f5f5</code></td>
+          </tr>
+          <tr>
+            <td><code>@tableBorder</code></td>
+            <td><code>ddd</code></td>
           </tr>
         </tbody>
       </table>
@@ -290,9 +356,85 @@
       <table class="table table-bordered table-striped">
         <tbody>
           <tr>
-            <td class="span3"><code>@primaryButtonBackground</code></td>
+            <td class="span3"><code>@btnBackground</code></td>
+            <td><code>@white</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #fff;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnBackgroundHighlight</code></td>
+            <td><code>darken(@white, 10%)</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #e6e6e6;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnBorder</code></td>
+            <td><code>darken(@white, 20%)</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #ccc;"></span></td>
+          </tr>
+
+          <tr>
+            <td class="span3"><code>@btnPrimaryBackground</code></td>
             <td><code>@linkColor</code></td>
             <td class="swatch-col"><span class="swatch" style="background-color: #08c;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnPrimaryBackgroundHighlight</code></td>
+            <td><code>spin(@btnPrimaryBackground, 15%)</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #05c;"></span></td>
+          </tr>
+
+          <tr>
+            <td class="span3"><code>@btnInfoBackground</code></td>
+            <td><code>#5bc0de</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #5bc0de;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnInfoBackgroundHighlight</code></td>
+            <td><code>#2f96b4</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #2f96b4;"></span></td>
+          </tr>
+
+          <tr>
+            <td class="span3"><code>@btnSuccessBackground</code></td>
+            <td><code>#62c462</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #62c462;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnSuccessBackgroundHighlight</code></td>
+            <td><code>51a351</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #51a351;"></span></td>
+          </tr>
+
+          <tr>
+            <td class="span3"><code>@btnWarningBackground</code></td>
+            <td><code>lighten(@orange, 15%)</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #fbb450;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnWarningBackgroundHighlight</code></td>
+            <td><code>@orange</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #f89406;"></span></td>
+          </tr>
+
+          <tr>
+            <td class="span3"><code>@btnDangerBackground</code></td>
+            <td><code>#ee5f5b</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #ee5f5b;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnDangerBackgroundHighlight</code></td>
+            <td><code>#bd362f</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #bd362f;"></span></td>
+          </tr>
+
+          <tr>
+            <td class="span3"><code>@btnInverseBackground</code></td>
+            <td><code>@gray</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #555;"></span></td>
+          </tr>
+          <tr>
+            <td class="span3"><code>@btnInverseBackgroundHighlight</code></td>
+            <td><code>@grayDarker</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #222;"></span></td>
           </tr>
         </tbody>
       </table>
@@ -302,59 +444,41 @@
           <tr>
             <td class="span3"><code>@placeholderText</code></td>
             <td><code>@grayLight</code></td>
-            <td class="swatch-col"><span class="swatch" style="background-color: #999;"></span></td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>Navbar</h4>
-      <table class="table table-bordered table-striped">
-        <tbody>
-          <tr>
-            <td class="span3"><code>@navbarHeight</code></td>
-            <td>40px</td>
-            <td class="swatch-col"></td>
           </tr>
           <tr>
-            <td><code>@navbarBackground</code></td>
-            <td><code>@grayDarker</code></td>
-            <td><span class="swatch" style="background-color: #222;"></span></td>
-          </tr>
-          <tr>
-            <td><code>@navbarBackgroundHighlight</code></td>
-            <td><code>@grayDark</code></td>
-            <td><span class="swatch" style="background-color: #333;"></span></td>
-          </tr>
-          <tr>
-            <td><code>@navbarText</code></td>
-            <td><code>@grayLight</code></td>
-            <td><span class="swatch" style="background-color: #999;"></span></td>
-          </tr>
-          <tr>
-            <td><code>@navbarLinkColor</code></td>
-            <td><code>@grayLight</code></td>
-            <td><span class="swatch" style="background-color: #999;"></span></td>
-          </tr>
-          <tr>
-            <td><code>@navbarLinkColorHover</code></td>
+            <td><code>@inputBackground</code></td>
             <td><code>@white</code></td>
-            <td><span class="swatch swatch-bordered" style="background-color: #fff;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@inputBorder</code></td>
+            <td><code>#ccc</code></td>
+          </tr>
+          <tr>
+            <td><code>@inputBorderRadius</code></td>
+            <td><code>3px</code></td>
+          </tr>
+          <tr>
+            <td><code>@inputDisabledBackground</code></td>
+            <td><code>@grayLighter</code></td>
+          </tr>
+          <tr>
+            <td><code>@formActionsBackground</code></td>
+            <td><code>#f5f5f5</code></td>
           </tr>
         </tbody>
       </table>
-    </div>
-    <div class="span6">
       <h4>Form states and alerts</h4>
       <table class="table table-bordered table-striped">
         <tbody>
           <tr>
             <td class="span3"><code>@warningText</code></td>
-            <td>#f3edd2</td>
-            <td class="swatch-col"><span class="swatch" style="background-color: #f3edd2;"></span></td>
+            <td>#c09853</td>
+            <td><span class="swatch" style="background-color: #c09853;"></span></td>
           </tr>
           <tr>
             <td><code>@warningBackground</code></td>
-            <td>#c09853</td>
-            <td><span class="swatch" style="background-color: #c09853;"></span></td>
+            <td>#f3edd2</td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #f3edd2;"></span></td>
           </tr>
           <tr>
             <td><code>@errorText</code></td>
@@ -385,6 +509,130 @@
             <td><code>@infoBackground</code></td>
             <td>#d9edf7</td>
             <td><span class="swatch" style="background-color: #d9edf7;"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="span6">
+      <h4>Navbar</h4>
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td class="span3"><code>@navbarHeight</code></td>
+            <td>40px</td>
+            <td class="swatch-col"></td>
+          </tr>
+          <tr>
+            <td><code>@navbarBackground</code></td>
+            <td><code>@grayDarker</code></td>
+            <td><span class="swatch" style="background-color: #222;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarBackgroundHighlight</code></td>
+            <td><code>@grayDark</code></td>
+            <td><span class="swatch" style="background-color: #333;"></span></td>
+          </tr>
+
+          <tr>
+            <td><code>@navbarText</code></td>
+            <td><code>@grayLight</code></td>
+            <td><span class="swatch" style="background-color: #999;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarLinkColor</code></td>
+            <td><code>@grayLight</code></td>
+            <td><span class="swatch" style="background-color: #999;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarLinkColorHover</code></td>
+            <td><code>@white</code></td>
+            <td><span class="swatch swatch-bordered" style="background-color: #fff;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarLinkColorActive</code></td>
+            <td><code>@navbarLinkColorHover</code></td>
+            <td><span class="swatch swatch-bordered" style="background-color: #fff;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarLinkBackgroundHover</code></td>
+            <td><code>transparent</code></td>
+            <td><span class="swatch swatch-bordered" style="background-color: transparent;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarLinkBackgroundActive</code></td>
+            <td><code>@navbarBackground</code></td>
+            <td><span class="swatch swatch-bordered" style="background-color: #fff;"></span></td>
+          </tr>
+
+          <tr>
+            <td><code>@navbarSearchBackground</code></td>
+            <td><code>lighten(@navbarBackground, 25%)</code></td>
+            <td><span class="swatch" style="background-color: #666;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarSearchBackgroundFocus</code></td>
+            <td><code>@white</code></td>
+            <td><span class="swatch swatch-bordered" style="background-color: #fff;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarSearchBorder</code></td>
+            <td><code>darken(@navbarSearchBackground, 30%)</code></td>
+            <td><span class="swatch" style="background-color: #111;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarSearchPlaceholderColor</code></td>
+            <td><code>#ccc</code></td>
+            <td><span class="swatch" style="background-color: #ccc;"></span></td>
+          </tr>
+          <tr>
+            <td><code>@navbarBrandColor</code></td>
+            <td><code>@navbarLinkColor</code></td>
+            <td><span class="swatch swatch-bordered" style="background-color: #fff;"></span></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>Dropdowns</h4>
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td class="span2"><code>@dropdownBackground</code></td>
+            <td><code>@white</code></td>
+          </tr>
+          <tr>
+            <td><code>@dropdownBorder</code></td>
+            <td><code>rgba(0,0,0,.2)</code></td>
+          </tr>
+          <tr>
+            <td><code>@dropdownLinkColor</code></td>
+            <td><code>@grayDark</code></td>
+          </tr>
+          <tr>
+            <td><code>@dropdownLinkColorHover</code></td>
+            <td><code>@white</code></td>
+          </tr>
+          <tr>
+            <td><code>@dropdownLinkBackgroundHover</code></td>
+            <td><code>@linkColor</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>Hero unit</h4>
+      <table class="table table-bordered table-striped">
+        <tbody>
+          <tr>
+            <td class="span3"><code>@heroUnitBackground</code></td>
+            <td><code>@grayLighter</code></td>
+            <td class="swatch-col"><span class="swatch" style="background-color: #eee;"></span></td>
+          </tr>
+          <tr>
+            <td class="span2"><code>@heroUnitHeadingColor</code></td>
+            <td><code>inherit</code></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><code>@heroUnitLeadColor</code></td>
+            <td><code>inhereit</code></td>
+            <td></td>
           </tr>
         </tbody>
       </table>
@@ -460,17 +708,17 @@
       </tr>
       <tr>
         <td><code>.size()</code></td>
-        <td><code>@height: 5px, @width: 5px</code></td>
+        <td><code>@height @width</code></td>
         <td>Quickly set the height and width on one line</td>
       </tr>
       <tr>
         <td><code>.square()</code></td>
-        <td><code>@size: 5px</code></td>
+        <td><code>@size</code></td>
         <td>Builds on <code>.size()</code> to set the width and height as same value</td>
       </tr>
       <tr>
         <td><code>.opacity()</code></td>
-        <td><code>@opacity: 100</code></td>
+        <td><code>@opacity</code></td>
         <td>Set, in whole numbers, the opacity percentage (e.g., "50" or "75")</td>
       </tr>
     </tbody>
@@ -552,22 +800,27 @@
       <tr>
         <td><code>.container-fixed()</code></td>
         <td><em class="muted">none</em></td>
-        <td>Provide a fixed-width (set with <code>@siteWidth</code>) container for holding your content</td>
+        <td>Create a horizontally centered container for holding your content</td>
       </tr>
       <tr>
-        <td><code>.columns()</code></td>
-        <td><code>@columns: 1</code></td>
-        <td>Build a grid column that spans any number of columns (defaults to 1 column)</td>
+        <td><code>#grid > .core()</code></td>
+        <td><code>@gridColumnWidth, @gridGutterWidth</code></td>
+        <td>Generate a pixel grid system (container, row, and columns) with <em>n</em> columns and <em>x</em> pixel wide gutter</td>
       </tr>
       <tr>
-        <td><code>.offset()</code></td>
-        <td><code>@columns: 1</code></td>
-        <td>Offset a grid column with left margin that spans any number of columns</td>
+        <td><code>#grid > .fluid()</code></td>
+        <td><code>@fluidGridColumnWidth, @fluidGridGutterWidth</code></td>
+        <td>Generate a precent grid system with <em>n</em> columns and <em>x</em> % wide gutter</td>
       </tr>
       <tr>
-        <td><code>.gridColumn()</code></td>
-        <td><em class="muted">none</em></td>
-        <td>Make an element float like a grid column</td>
+        <td><code>#grid > .input()</code></td>
+        <td><code>@gridColumnWidth, @gridGutterWidth</code></td>
+        <td>Generate the pixel grid system for <code>input</code> elements, accounting for padding and borders</td>
+      </tr>
+      <tr>
+        <td><code>.makeColumn</code></td>
+        <td><code>@columns: 1, @offset: 0</code></td>
+        <td>Turn any <code>div</code> into a grid column without the <code>.span*</code> classes</td>
       </tr>
     </tbody>
   </table>
@@ -583,12 +836,12 @@
     <tbody>
       <tr>
         <td><code>.border-radius()</code></td>
-        <td><code>@radius: 5px</code></td>
+        <td><code>@radius</code></td>
         <td>Round the corners of an element. Can be a single value or four space-separated values</td>
       </tr>
       <tr>
         <td><code>.box-shadow()</code></td>
-        <td><code>@shadow: 0 1px 3px rgba(0,0,0,.25)</code></td>
+        <td><code>@shadow</code></td>
         <td>Add a drop shadow to an element</td>
       </tr>
       <tr>
@@ -604,17 +857,17 @@
       <tr>
         <td><code>.scale()</code></td>
         <td><code>@ratio</code></td>
-        <td>Scale an element to <em>n</em> times it's original size</td>
+        <td>Scale an element to <em>n</em> times its original size</td>
       </tr>
       <tr>
         <td><code>.translate()</code></td>
-        <td><code>@x: 0, @y: 0</code></td>
+        <td><code>@x, @y</code></td>
         <td>Move an element on the x and y planes</td>
       </tr>
       <tr>
         <td><code>.background-clip()</code></td>
         <td><code>@clip</code></td>
-        <td>Crop the backgroud of an element (useful for <code>border-radius</code>)</td>
+        <td>Crop the background of an element (useful for <code>border-radius</code>)</td>
       </tr>
       <tr>
         <td><code>.background-size()</code></td>
@@ -632,13 +885,18 @@
         <td>Control cursor selection of text on a page</td>
       </tr>
       <tr>
+        <td><code>.backface-visibility()</code></td>
+        <td><code>@visibility: visible</code></td>
+        <td>Prevent flickering of content when using CSS 3D transforms</td>
+      </tr>
+      <tr>
         <td><code>.resizable()</code></td>
         <td><code>@direction: both</code></td>
         <td>Make any element resizable on the right and bottom</td>
       </tr>
       <tr>
         <td><code>.content-columns()</code></td>
-        <td><code>@columnCount, @columnGap: @gridColumnGutter</code></td>
+        <td><code>@columnCount, @columnGap: @gridGutterWidth</code></td>
         <td>Make the content of any element use CSS3 columns</td>
       </tr>
     </tbody>
@@ -654,47 +912,47 @@
     </thead>
     <tbody>
       <tr>
-        <td><code>.#translucent > .background()</code></td>
+        <td><code>#translucent > .background()</code></td>
         <td><code>@color: @white, @alpha: 1</code></td>
         <td>Give an element a translucent background color</td>
       </tr>
       <tr>
-        <td><code>.#translucent > .border()</code></td>
+        <td><code>#translucent > .border()</code></td>
         <td><code>@color: @white, @alpha: 1</code></td>
         <td>Give an element a translucent border color</td>
       </tr>
       <tr>
-        <td><code>.#gradient > .vertical()</code></td>
+        <td><code>#gradient > .vertical()</code></td>
         <td><code>@startColor, @endColor</code></td>
         <td>Create a cross-browser vertical background gradient</td>
       </tr>
       <tr>
-        <td><code>.#gradient > .horizontal()</code></td>
+        <td><code>#gradient > .horizontal()</code></td>
         <td><code>@startColor, @endColor</code></td>
         <td>Create a cross-browser horizontal background gradient</td>
       </tr>
       <tr>
-        <td><code>.#gradient > .directional()</code></td>
+        <td><code>#gradient > .directional()</code></td>
         <td><code>@startColor, @endColor, @deg</code></td>
         <td>Create a cross-browser directional background gradient</td>
       </tr>
       <tr>
-        <td><code>.#gradient > .vertical-three-colors()</code></td>
+        <td><code>#gradient > .vertical-three-colors()</code></td>
         <td><code>@startColor, @midColor, @colorStop, @endColor</code></td>
         <td>Create a cross-browser three-color background gradient</td>
       </tr>
       <tr>
-        <td><code>.#gradient > .radial()</code></td>
+        <td><code>#gradient > .radial()</code></td>
         <td><code>@innerColor, @outerColor</code></td>
         <td>Create a cross-browser radial background gradient</td>
       </tr>
       <tr>
-        <td><code>.#gradient > .striped()</code></td>
+        <td><code>#gradient > .striped()</code></td>
         <td><code>@color, @angle</code></td>
         <td>Create a cross-browser striped background gradient</td>
       </tr>
       <tr>
-        <td><code>.#gradientBar()</code></td>
+        <td><code>#gradientBar()</code></td>
         <td><code>@primaryColor, @secondaryColor</code></td>
         <td>Used for buttons to assign a gradient and slightly darker border</td>
       </tr>
@@ -717,15 +975,15 @@
   <div class="row">
     <div class="span4">
       <h3>Node with makefile</h3>
-      <p>Install the LESS command line compiler with npm by running the following command:</p>
-      <pre>$ npm install less</pre>
+      <p>Install the LESS command line compiler and uglify-js globally with npm by running the following command:</p>
+      <pre>$ npm install -g less uglify-js</pre>
       <p>Once installed just run <code>make</code> from the root of your bootstrap directory and you're all set.</p>
       <p>Additionally, if you have <a href="https://github.com/mynyml/watchr">watchr</a> installed, you may run <code>make watch</code> to have bootstrap automatically rebuilt every time you edit a file in the bootstrap lib (this isn't required, just a convenience method).</p>
     </div><!-- /span4 -->
     <div class="span4">
       <h3>Command line</h3>
       <p>Install the LESS command line tool via Node and run the following command:</p>
-        <pre>$ lessc ./lib/bootstrap.less > bootstrap.css</pre>
+        <pre>$ lessc ./less/bootstrap.less > bootstrap.css</pre>
       <p>Be sure to include <code>--compress</code> in that command if you're trying to save some bytes!</p>
     </div><!-- /span4 -->
     <div class="span4">
