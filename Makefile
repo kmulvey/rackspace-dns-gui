@@ -5,3 +5,6 @@ lint:
 
 lint-package-json: 
 	./node_modules/.bin/jshint ./package.json
+
+lint-routes:
+	./node_modules/.bin/jshint ./lib/routes/*.js --config jshint.json

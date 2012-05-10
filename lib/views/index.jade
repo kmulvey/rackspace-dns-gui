@@ -20,7 +20,8 @@ html(class="no-js", lang="en")
 								br
 								button(type="submit", id='signin-submit').btn.btn-primary.login-button Submit
 								button(data-toggle="modal", href="#forgot_modal").btn.login-button Forgot password?
-							#{flashMessages}
+							div(id="alertMessage").alert.alert-error
+								#{flashMessages}
 				div.span4
 					&nbsp;
 			div.row-fluid
@@ -58,6 +59,13 @@ html(class="no-js", lang="en")
 		script(src="/js/bootstrap-modal.js")
 		script(src="/js/bootstrap-transition.js")
 		script
+			$('document').ready(function() {
+				if ($('#alertMessage').text().length > 1) {
+					$('#alertMessage').show();
+				} else {
+					$('#alertMessage').hide();
+				}
+			});
 			$('#forgot_modal').modal({
 				keyboard: true,
 				show: false
