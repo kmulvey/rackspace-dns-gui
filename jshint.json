@@ -39,7 +39,8 @@
     "shadow"        : false,  // Allows re-define variables later in code e.g. `var x=1; x=2;`.
     "supernew"      : false,  // Tolerate `new function () { ... };` and `new Object;`.
     "undef"         : true,   // Require all non-global variables be declared before they are used.
-    "es5"           : true,
+    "es5"           : true,   // If ES5 syntax should be allowed.
+    "strict"        : false,  // Require the "use strict"; pragma.
     "onecase"       : true,
         
     // Personal styling preferences.
