@@ -21,9 +21,9 @@ step:
 
 	npm install [-g] step
 	
-db-mysql:
+mysql:
 
-	npm install [-g] db-mysql
+	npm install [-g] mysql
 	
 mailer:
 
